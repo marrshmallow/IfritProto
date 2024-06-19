@@ -43,7 +43,9 @@ GameObject:
   - component: {fileID: 5954923165706590835}
   - component: {fileID: 3039147942254441676}
   - component: {fileID: 9124419063776543598}
+  - component: {fileID: 3805780741785204555}
   - component: {fileID: 6133159403888708736}
+  - component: {fileID: 4233649086127032133}
   m_Layer: 0
   m_Name: BossMesh
   m_TagString: Untagged
@@ -120,6 +122,29 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &3805780741785204555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6385193984356224198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ba8bef1806543b47a718ff4d3cb0934, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SampleGroup:
+    Name: 
+    Unit: 0
+    IncreaseIsBetter: 0
+    Samples: []
+    Min: 0
+    Max: 0
+    Median: 0
+    Average: 0
+    StandardDeviation: 0
+    Sum: 0
 --- !u!136 &6133159403888708736
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -135,7 +160,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -143,6 +168,18 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4233649086127032133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6385193984356224198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d478e64a8dd88c54e9e069673b9fa6ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6495172096191324014
 GameObject:
   m_ObjectHideFlags: 0

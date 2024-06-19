@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 /// <summary>
 /// 혹시 몰라서 넣어두는 공격 인터페이스
