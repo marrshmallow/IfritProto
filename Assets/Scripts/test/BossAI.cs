@@ -18,38 +18,28 @@ using UnityEngine;
 /// Boss 프리팹 안에 Sensor라는 이름g으로 스피어 컬라이더 생성: 현재 지름 3
 /// </summary>
 
-
+// TODO: 일단은 쪼개고 중간에서 합쳐주는 방법으로 가자
 
 public class BossAI : MonoBehaviour
 {
     public Transform playerTransform; // 플레이어의 트랜스폼 TODO: 플레이어 스크립트에서 직접 참조할지 나중에 생각하기
-    // Player 태그를 가진 개체의 트리거 이벤트를 감지할, 보스를 중심으로 한 작은 원형 범위 (컬라이더 말고 레이캐스트)
-    private Vector3 _senseDist;
-    // 보스의 일반 공격 범위 TODO: 일단 먼저
+    
+    // 보스의 일반 공격 범위
     private Vector3 _attackDist;
     // 보스의 스킬 공격 범위 TODO: 나중에
     private Vector3 _skillAttackDist;
 
-    private bool _sensedPlayer;
-    
+
     private void Start()
     {
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
-        DetectPlayer();
-    }
-
-    // 플레이어의 존재 감지
-    private void DetectPlayer()
-    {
-        RaycastHit hit;
-        Vector3 noticeDist = transform.position + _senseDist;
-        /*if (Physics.SphereCast(transform.position, _senseDist, _senseDist)) ;
-            _sensedPlayer = true;*/
 
     }
+    
+
     
     // 플레이어가 어디에 있는지 확인
     private void GetPlayerPosition()
