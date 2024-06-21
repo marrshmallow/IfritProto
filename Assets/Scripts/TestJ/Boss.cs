@@ -11,6 +11,21 @@ namespace TestJ
         private float _autoAttackInterval = 3f;
         private bool _isCriticalHit;
 
+        [SerializeField] private float minDis = 100f; // 보스가 플레이어를 인식하는 최소 거리
+
+        public float MinDis
+        {
+            get => minDis;
+            set => minDis = value;
+        }
+        
+        [SerializeField] private float skillDis = 5f; // 보스가 스킬을 사용할 수 있는 거리
+        public float SkillDis
+        {
+            get => skillDis;
+            set => skillDis = value;
+        }
+
         private void Start()
         {
             _autoAttackInterval = 3f;

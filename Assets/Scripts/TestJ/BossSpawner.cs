@@ -19,7 +19,7 @@ namespace TestJ
         }
         
         /**
-         * 사용할 프리팹: Boss 1
+         * 사용할 프리팹: Boss 2
          */
         private void Spawn()
         {

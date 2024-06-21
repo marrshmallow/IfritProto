@@ -50,6 +50,8 @@ namespace TestJ
 
         private float _accTime; // 누적 시간
         [SerializeField] private float aaInterval = 3f; // 자동공격 간격
+        [SerializeField] private bool _useFlame;
+        [SerializeField] private double nFlame;
 
         private void Update()
         {
@@ -70,6 +72,7 @@ namespace TestJ
         private void CheckDistance()
         {
             // 플레이어가 있는 위치 확인
+            
             // 보스의 위치를 빼서 거리 확인
             // 거리와 기준 거리를 대조
             // 거리와 기준 거리 2를 대조
@@ -107,7 +110,7 @@ namespace TestJ
             }
         }
 
-        // 페이즈 1일 때 보스의 스킬 룰렛 안
+        /*// 페이즈 1일 때 보스의 스킬 룰렛 안
         private void SelectSkill1()
         {
             if (Random.Range(0f, 10f) <= nFlame)
@@ -149,7 +152,7 @@ namespace TestJ
                 _useFlame = true;
                 Debug.Log("보스가 화염을 뿜었다");
             }
-        }
+        }*/
         
         /*private IEnumerator AutoAttack()
         {

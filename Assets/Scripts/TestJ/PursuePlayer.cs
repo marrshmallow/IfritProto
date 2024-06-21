@@ -1,7 +1,6 @@
-using TestJ;
 using UnityEngine;
 
-namespace test
+namespace TestJ
 {
     /// <summary>
     /// 플레이어의 위치를 파악해서 (transform.position)
@@ -30,7 +29,7 @@ namespace test
         
         private void Update()
         {
-            if (!_sensor.player) return;
+            if (!_sensor.provoked) return;
             Vector3 p = _sensor.player.transform.position;
             _targetPos = new Vector3(p.x - _t.position.x, 0f, p.z - _t.position.z);
             // 이까지만 했을 때의 문제는 보스가 목표 지점에 다다를 수록 속도가 느려진다는 것
@@ -47,7 +46,7 @@ namespace test
             // 
             Vector3 targetDir = Vector3.MoveTowards(_t.position, _targetPos, moveSpeed * Time.deltaTime);
             // https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Vector3.MoveTowards.html
-            //_t.position += moveSpeed * Time.deltaTime * targetDir; // MoveTowards()를 사용해서 나온 값의 용도를 착각했기 때문에 문제 발생
+            _t.position -= moveSpeed * Time.deltaTime * targetDir; // MoveTowards()를 사용해서 나온 값의 용도를 착각했기 때문에 문제 발생
         }
     }
 }

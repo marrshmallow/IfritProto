@@ -2,18 +2,10 @@ using UnityEngine;
 
 namespace TestJ
 {
+    /// <summary>
+    /// 테스트용 플레이어 스크립트   
+    /// </summary>
     public class Player : MonoBehaviour
     {
-        // Start is called once before the first execution of Update after the MonoBehaviour is created
-        void Start()
-        {
-        
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-        
-        }
     }
 }
