@@ -130,9 +130,9 @@ GameObject:
   - component: {fileID: 4996889356127665882}
   - component: {fileID: 5510099451630897580}
   - component: {fileID: 7706225299984854334}
-  - component: {fileID: 5642580625428192482}
   - component: {fileID: 1852748775405639524}
   - component: {fileID: 6173665710271599386}
+  - component: {fileID: 2250002060132791165}
   m_Layer: 6
   m_Name: Boss 1
   m_TagString: Boss
@@ -219,26 +219,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
---- !u!114 &5642580625428192482
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4000124450341646733}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d478e64a8dd88c54e9e069673b9fa6ab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attack: 0
-  useSkill: 0
-  missionFailed: 0
-  activateSkillA: 0
-  activateSkillB: 0
-  activateSkillC: 0
-  activateSkillD: 0
-  activateSkillE: 0
 --- !u!135 &1852748775405639524
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -273,6 +253,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 1000
+--- !u!114 &2250002060132791165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4000124450341646733}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d478e64a8dd88c54e9e069673b9fa6ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  criticalMultiplier: 1.2
+  attack: 0
+  useSkill: 0
+  missionFailed: 0
+  activateSkillA: 0
+  activateSkillB: 0
+  activateSkillC: 0
+  activateSkillD: 0
+  activateSkillE: 0
+  aaInterval: 3
 --- !u!1 &5624436312073562159
 GameObject:
   m_ObjectHideFlags: 0

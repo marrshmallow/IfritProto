@@ -1,7 +1,6 @@
-using System;
 using UnityEngine;
 
-namespace test
+namespace TestJ
 {
     /// <summary>
     /// 게임의 흐름을 관리하는 스크립트.

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace test
+namespace TestJ
 {
     public class Player : MonoBehaviour
     {

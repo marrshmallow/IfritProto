@@ -1,6 +1,7 @@
+using test;
 using UnityEngine;
 
-namespace test
+namespace TestJ
 {
     public class PlayerDetector : MonoBehaviour
     {

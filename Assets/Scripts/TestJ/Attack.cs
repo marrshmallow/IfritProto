@@ -1,6 +1,4 @@
-using System.Collections;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 /*
  * 코루틴을 사용하는 세 가지 방법
@@ -30,7 +28,7 @@ using UnityEngine.Serialization;
  * TODO: 어쩌면 이 오브젝트에 연결된 다른 스크립트에서 실행중인 코루틴은 꺼질 수도?
  */ 
 
-namespace testJ
+namespace TestJ
 {
     /// <summary>
     /// 활성화되면 3초에 한 번씩 일반 공격
@@ -39,29 +37,26 @@ namespace testJ
     {
         private float _damage; // 한 번의 공격량
         private bool _isCriticalHit;
-        private float _criticalMultiplier;
+        [SerializeField] private float criticalMultiplier = 1.2f;
         [SerializeField] private bool attack;
         [SerializeField] private bool useSkill; // 이거는 Sensor에서 받아와야 할 듯
         [SerializeField] private bool missionFailed; // 사실 이거는 GameManager에서 관리해야 하는 것
+        
         [SerializeField] private bool activateSkillA;
         [SerializeField] private bool activateSkillB;
         [SerializeField] private bool activateSkillC;
         [SerializeField] private bool activateSkillD;
         [SerializeField] private bool activateSkillE;
 
-        private void Start()
-        {
-            StartCoroutine(AutoAttack());
-        }
+        private float _accTime; // 누적 시간
+        [SerializeField] private float aaInterval = 3f; // 자동공격 간격
 
         private void Update()
         {
-            if (!attack) StopAllCoroutines();
-            else
-            {
-                StartCoroutine(AutoAttack());
-            }
-
+            // 타이머: 시간 누적
+            _accTime += Time.deltaTime;
+            AutoAttack();
+            
             if (useSkill)
             {
                 if (activateSkillA) SkillA();
@@ -71,8 +66,92 @@ namespace testJ
                 if (activateSkillE) SkillE();
             }
         }
+
+        private void CheckDistance()
+        {
+            // 플레이어가 있는 위치 확인
+            // 보스의 위치를 빼서 거리 확인
+            // 거리와 기준 거리를 대조
+            // 거리와 기준 거리 2를 대조
+        }
+
+        /**
+         * 확률적으로 치명타를 발생시킴
+         */
+        private void HitHard()
+        {
+            if (Random.Range(0f, 10f) < 3f)
+            {
+                _isCriticalHit = true;
+            }
+            else
+            {
+                _isCriticalHit = false;
+            }
+        }
         
-        private IEnumerator AutoAttack()
+        private void AutoAttack()
+        {
+            if (_accTime >= aaInterval)
+            {
+                _accTime = 0f;
+                float d = Random.Range(50f, 60f); // 공격량 결정
+                HitHard(); // 치명타 룰렛 실행
+                if (_isCriticalHit)
+                {
+                    d *= criticalMultiplier;
+                    Debug.Log("치명타!");
+                }
+                _damage = Mathf.FloorToInt(d); // 최종 공격량 확정
+                Debug.Log($"보스가 플레이어에게 {_damage}만큼 피해!");
+            }
+        }
+
+        // 페이즈 1일 때 보스의 스킬 룰렛 안
+        private void SelectSkill1()
+        {
+            if (Random.Range(0f, 10f) <= nFlame)
+            {
+                _useFlame = true;
+                Debug.Log("보스가 화염을 뿜었다");
+            }
+        }
+        
+        // 페이즈 2일 때
+        private void SelectSkill2()
+        {
+            if (Random.Range(0f, 10f) <= nFloor)
+            {
+                _useFloor = true;
+                Debug.Log("보스가 장판을 폭발시켰다");
+            }
+            else
+            {
+                _useFlame = true;
+                Debug.Log("보스가 화염을 뿜었다");
+            }
+        }
+
+        private void SelectSkill3()
+        {
+            if (Random.Range(0f, 10f) <= nFloor)
+            {
+                _useFloor = true;
+                Debug.Log("보스가 장판을 폭발시켰다");
+            }
+            else if (Random.Range(0f, 10f) > nFloor && Random.Range(0f, 10f) <= nPillar)
+            {
+                _usePillar = true;
+                Debug.Log("보스가 불기둥을 폭발시켰다");
+            }
+            else
+            {
+                _useFlame = true;
+                Debug.Log("보스가 화염을 뿜었다");
+            }
+        }
+        
+        /*private IEnumerator AutoAttack()
         {
             // TODO: 여기서 문제는 Start에서 코루틴을 실행시켜 줄 때 초기값이 !attack인 경우에도 최초 한 번은 실행된다는 점
             _damage = Random.Range(50, 60);
@@ -81,7 +160,7 @@ namespace testJ
             Debug.Log("보스가 플레이어에게 " + _damage + "만큼 피해!");
             yield return new WaitForSeconds(3f);
             StartCoroutine(AutoAttack());
-        }
+        }*/
 
         /*
          * 기본 목표: 보스가 스킬을 쓴다
@@ -94,7 +173,7 @@ namespace testJ
 
         private void SkillA()
         {
-            _damage = Random.Range(100, 140);
+            _damage = Random.Range(100f, 140f);
             // if (_isCriticalHit)
             //     _damage = _damage * _criticalMultiplier;
             Debug.Log($"보스가 45도 부채꼴 화염 공격. 플레이어에게 {_damage} 만큼 피해!");
@@ -103,7 +182,7 @@ namespace testJ
         
         private void SkillB()
         {
-            _damage = Random.Range(30, 40);
+            _damage = Random.Range(30f, 40f);
             // if (_isCriticalHit)
             //     _damage = _damage * _criticalMultiplier;
             Debug.Log($"보스가 밀어내기 공격. 플레이어에게 {_damage} 만큼 피해!");
@@ -112,7 +191,7 @@ namespace testJ
         
         private void SkillC()
         {
-            _damage = Random.Range(50, 60);
+            _damage = Random.Range(50f, 60f);
             // if (_isCriticalHit)
             //     _damage = _damage * _criticalMultiplier;
             Debug.Log($"보스의 장판 폭발 공격. 플레이어에게 {_damage} 만큼 피해!");
@@ -121,7 +200,7 @@ namespace testJ
         
         private void SkillD()
         {
-            _damage = Random.Range(80, 90);
+            _damage = Random.Range(80f, 90f);
             // if (_isCriticalHit)
             //     _damage = _damage * _criticalMultiplier;
             Debug.Log($"보스가 불기둥 장판 폭발 공격. 플레이어에게 {_damage} 만큼 피해!");
@@ -138,7 +217,7 @@ namespace testJ
             }
             else
             {
-                _damage = Random.Range(180, 200);
+                _damage = Random.Range(180f, 200f);
                 //if (_isCriticalHit) _damage = _damage * _criticalMultiplier;
                 Debug.Log($"미션 성공. 플레이어에게 {_damage} 만큼 피해! 다음 페이즈로 넘어갑니다.");
                 activateSkillE = false;

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace test
+namespace TestJ
 {
     /// <summary>
     /// 보스의 공격 상태 머신
