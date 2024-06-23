@@ -5,7 +5,6 @@ namespace TestJ
     /// <summary>
     /// 플레이어 생성기 (테스트용)
     /// </summary>
-
     public class PlayerSpawner : MonoBehaviour
     {
         [SerializeField] private GameObject playerPrefab;
@@ -21,7 +20,7 @@ namespace TestJ
          */
         private void Spawn()
         {
-            Instantiate(playerPrefab, spawnPos, Quaternion.identity);
+            GameObject player = Instantiate(playerPrefab, spawnPos, Quaternion.identity);
         }
     }
 }

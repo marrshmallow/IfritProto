@@ -10,14 +10,17 @@ namespace TestJ
         public float moveSpeed = 50f;
         private Transform _t;
         
-        private void Start()
+        private void OnEnable()
         {
             _t = GetComponent<Transform>();
         }
         
         private void Update()
         {
-            Move();
+            if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
+            {
+                Move();
+            }
         }
 
         private void Move()
@@ -26,7 +29,7 @@ namespace TestJ
             float v = Input.GetAxisRaw("Vertical");
             Vector3 dir = new Vector3(h, 0f, v);
             dir.Normalize();
-            _t.transform.position = moveSpeed * Time.deltaTime * dir;
+            _t.transform.position += moveSpeed * Time.deltaTime * dir;
         }
     }
 }

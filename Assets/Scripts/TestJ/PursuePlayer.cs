@@ -24,13 +24,25 @@ namespace TestJ
         private void Start()
         {
             _t = GetComponent<Transform>();
-            _sensor = GetComponent<PlayerDetector>();
+            //_sensor = GetComponent<PlayerDetector>();
+            _sensor = transform.GetChild(1).GetComponent<PlayerDetector>();
         }
         
         private void Update()
         {
             if (!_sensor.provoked) return;
-            Vector3 p = _sensor.player.transform.position;
+            {
+                StartPursue();
+            }
+        }
+
+        //TODO: 시작하는 부분은 코루틴으로 해야할 듯. 이것도 State 나눠서 해야하지 않을까
+        private void StartPursue()
+        {
+            Vector3 p = _sensor.playerPos;
+            
+            _t.transform.LookAt(_sensor.playerPos);
+            
             _targetPos = new Vector3(p.x - _t.position.x, 0f, p.z - _t.position.z);
             // 이까지만 했을 때의 문제는 보스가 목표 지점에 다다를 수록 속도가 느려진다는 것
             // TODO: 이게 원래 내가 원하는 효과인지 아닌지 결정하기. 공부는 당연히 해놓기.

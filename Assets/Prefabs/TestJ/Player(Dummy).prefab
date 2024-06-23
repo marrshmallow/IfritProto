@@ -216,8 +216,8 @@ GameObject:
   - component: {fileID: 5151762352374885390}
   - component: {fileID: 988943961634183623}
   - component: {fileID: 6412355615571101651}
-  - component: {fileID: 692774086081592713}
-  - component: {fileID: 3115181182274809193}
+  - component: {fileID: 2411491126596502302}
+  - component: {fileID: -3024360720531333257}
   m_Layer: 3
   m_Name: Player(Dummy)
   m_TagString: Player
@@ -291,7 +291,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &692774086081592713
+--- !u!114 &2411491126596502302
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -303,7 +303,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad019e90a94ac8c408369d9a1a6c277b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3115181182274809193
+--- !u!114 &-3024360720531333257
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -315,4 +315,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 888bffa65e095e64bb7fd585348ee617, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 50
+  moveSpeed: 100
