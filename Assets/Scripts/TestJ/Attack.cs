@@ -52,7 +52,7 @@ namespace TestJ
         [SerializeField] private float aaInterval = 3f; // 자동공격 간격
         [SerializeField] private bool _useFlame;
         [SerializeField] private double nFlame;
-
+            
         private void Update()
         {
             // 타이머: 시간 누적
@@ -165,14 +165,14 @@ namespace TestJ
             StartCoroutine(AutoAttack());
         }*/
 
-        /*
+        /*/*
          * 기본 목표: 보스가 스킬을 쓴다
          * 다음 목표: 여러가지 스킬 중에서 랜덤으로 선택해 쓴다
          * 궁극적인 목표: 순차적으로 스킬 풀에 스킬이 하나씩 추가됨
-         */
+         #1#
         private void UseAttackSkill()
         {
-        }
+        }*/
 
         private void SkillA()
         {

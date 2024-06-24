@@ -9,7 +9,7 @@ namespace TestJ
     public class BossSpawner : MonoBehaviour
     {
         [SerializeField] private GameObject bossPrefab;
-        [SerializeField] private Object childPrefab;
+        [SerializeField] private GameObject childPrefab;
         [SerializeField] private Vector3 spawnPos = new Vector3(0f, 0f, 138f);
         [SerializeField] private Vector3 childPos = new Vector3(0f, 0f, 0f);
 
@@ -41,7 +41,7 @@ namespace TestJ
          */
         private void SpawnChild()
         {
-            Instantiate(childPrefab, childPos, Quaternion.identity);
+            GameObject child = Instantiate(childPrefab, childPos, Quaternion.identity);
         }
     }
 }
