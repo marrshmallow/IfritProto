@@ -3,7 +3,7 @@ using UnityEngine;
 namespace TestJ
 {
     /// <summary>
-    /// 바닥에 붙이는 센서
+    /// 플레이어 탐지기
     /// </summary>
     public class PlayerDetector : MonoBehaviour
     {
@@ -12,10 +12,10 @@ namespace TestJ
             get => _provoked;
             set => _provoked = value;
         }
+        
         // 한 번 참이 되면 플레이어가 죽거나 보스가 죽을 때까지 변하지 않는다
-
         private bool _provoked;
-        public Vector3 playerPos;
+        public GameObject player;
 
         /*
          * 보스가 플레이어를 인식하게 하는 것
@@ -29,12 +29,16 @@ namespace TestJ
         {
             if (other.gameObject.layer == 3)
             {
-                // 플레이어를 인식... TODO: 컬라이더 말고 거리 측정으로 하기 = 컬라이더를 꺼줘도 트리거 이벤트는 발생한다
+                // 플레이어를 인식...
                 _provoked = true;
-                playerPos = other.transform.position;
+                player = other.gameObject;
                 Debug.Log("플레이어 감지. 상태: 전투");
                 //player = other.GetComponent<Player>(); // 주의: 컬라이더와 같은 오브젝트에 해당 스크립트가 연결되어 있지 않으면 불러올 수 없다
-                //Debug.Log("해당 플레이어의 Player.cs를 연결");
+                /*
+                 * 충돌체크는 물리엔진이 하고, 그 정보를 받아서 처리하는 것은 Rigidbody
+                 * 자식 오브젝트에 컬라이더가 있는데 같은 오브젝트에 Rigidbody가 없다면, Rigidbody를 찾아서 점점 위로 올라가게 된다.
+                 * 올라가는 도중에 찾는 가장 첫 번째 Rigidbody에 모든 충돌 정보를 전달
+                 */
             }
         }
     }
