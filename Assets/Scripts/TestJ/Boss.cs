@@ -6,7 +6,50 @@ namespace TestJ
 {
     public class Boss : MonoBehaviour, IAttack
     {
-        public float Hp { get; set; }
+        private enum Phase
+        {
+            Default,
+            A,
+            B,
+            CheckPoint,
+            Final
+        }
+
+        private Phase _phase;
+        private float _hp;
+        public float Hp {
+            get => _hp;
+            private set
+            {
+                _hp = value;
+                
+                // 보스의 체력이 깎일 때마다(set될 때마다) if로 체력 비교
+                if (_hp <= 100f)
+                {
+                    // TODO: 중복 실행 방지를 위한 장치 필요 >> Event
+                    // e.g. 80f로 set 되고 78f로 다시 set 되었을 때
+                    
+                    // PhaseState를 바꿔준다
+                    _phase = Phase.A;
+                }
+                else if (_hp <= 75f)
+                {
+                    _phase = Phase.B;
+                }
+                else if (_hp <= 45f)
+                {
+                    _phase = Phase.CheckPoint;
+                }
+                else if (_hp <= 22f)
+                {
+                    _phase = Phase.Final;
+                }
+                else if (_hp <= 0f)
+                {
+                    _phase = Phase.Default;
+                }
+            }
+        }
 
         private float _damage;
         private bool _isCritHit; // 치명타인지 아닌지. TODO: 값의 범위를 두 가지 정해주고 랜덤하게 주사위 굴려서 나온 숫자가 특정 범위 안이면 치명타 판정을 받도록 하는 방식이 좋을지?
@@ -34,27 +77,22 @@ namespace TestJ
             if (Input.GetKeyUp(KeyCode.Alpha1))
             {
                 Hp = 100f;
-                //OnSwitch2PhaseA?.Invoke();
             }
             else if (Input.GetKeyUp(KeyCode.Alpha2))
             {
                 Hp = 75f;
-                //OnSwitch2PhaseB?.Invoke();
             }
             else if (Input.GetKeyUp(KeyCode.Alpha3))
             {
                 Hp = 45f;
-                //OnSwitch2PhaseCheckPoint?.Invoke();
             }
             else if (Input.GetKeyUp(KeyCode.Alpha4))
             {
                 Hp = 22f;
-                //OnSwitch2PhaseFinal?.Invoke();
             }
             else if (Input.GetKeyUp(KeyCode.Alpha5))
             {
                 Hp = 0f;
-                //OnSwitch2PhaseDefault?.Invoke();
             }
         }
     

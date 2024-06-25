@@ -181,10 +181,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 586488960546065647, guid: e0a8abcca0f0f7d45b8efb749bbd84ab, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1499326093}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e0a8abcca0f0f7d45b8efb749bbd84ab, type: 3}
 --- !u!1 &756777564
 GameObject:
@@ -333,7 +330,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1010294460}
   - component: {fileID: 1010294459}
-  - component: {fileID: 1010294458}
+  - component: {fileID: 1010294461}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -341,18 +338,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1010294458
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1010294457}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 688fac0bcbef9bd47b3a95121cc5df02, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1010294459
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -380,21 +365,16 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1499326086 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 586488960546065647, guid: e0a8abcca0f0f7d45b8efb749bbd84ab, type: 3}
-  m_PrefabInstance: {fileID: 366715668}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1499326093
+--- !u!114 &1010294461
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1499326086}
+  m_GameObject: {fileID: 1010294457}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a7e85672aafe27e49846d604181dc246, type: 3}
+  m_Script: {fileID: 11500000, guid: 1109b089d2d038c4797bd580ecbacbfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1746532123
