@@ -73,9 +73,13 @@ namespace TestJ
             }
             
             // 이 밑으로는 딱 한 번 씩만 실행된다.
-            // TODO: 이 때 이벤트 선언하는 게 좋을 듯?
             Debug.Log($"Switched {_phase} to {_newPhase}");
             _phase = _newPhase;
+            // TODO: Invoke OnSwitchedPhase event (Listener: Boss)
+            // TODO: Boss will change Attack Pattern when OnSwitchedPhase event is invoked
+            // 1. Event is invoked
+            // 2. PhaseChecker emits
+            // TODO: How to design Attack Pattern
         }
     }
 }
