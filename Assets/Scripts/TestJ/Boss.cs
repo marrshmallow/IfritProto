@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -6,49 +5,12 @@ namespace TestJ
 {
     public class Boss : MonoBehaviour, IAttack
     {
-        private enum Phase
-        {
-            Default,
-            A,
-            B,
-            CheckPoint,
-            Final
-        }
-
-        private Phase _phase;
         private float _hp;
-        public float Hp {
-            get => _hp;
-            private set
-            {
-                _hp = value;
-                
-                // 보스의 체력이 깎일 때마다(set될 때마다) if로 체력 비교
-                if (_hp <= 100f)
-                {
-                    // TODO: 중복 실행 방지를 위한 장치 필요 >> Event
-                    // e.g. 80f로 set 되고 78f로 다시 set 되었을 때
-                    
-                    // PhaseState를 바꿔준다
-                    _phase = Phase.A;
-                }
-                else if (_hp <= 75f)
-                {
-                    _phase = Phase.B;
-                }
-                else if (_hp <= 45f)
-                {
-                    _phase = Phase.CheckPoint;
-                }
-                else if (_hp <= 22f)
-                {
-                    _phase = Phase.Final;
-                }
-                else if (_hp <= 0f)
-                {
-                    _phase = Phase.Default;
-                }
-            }
+
+        public float Hp
+        {
+            get;
+            private set;
         }
 
         private float _damage;
@@ -59,53 +21,45 @@ namespace TestJ
 
         [SerializeField] private float minDis = 100f; // 보스가 플레이어를 인식하는 최소 거리
 
-        public float MinDis { get; set; }
+        public float MinDis => minDis;
         
         [SerializeField] private float skillDis = 5f; // 보스가 스킬을 사용할 수 있는 거리
-        public float SkillDis { get; set; }
-        
+        public float SkillDis => skillDis;
+
         // Phase 변경 이벤트 수신
 
         private void Start()
         {
             _autoAttackInterval = 3f;
-            Hp = 1000f;
+            Hp = 100f;
         }
-    
+
         private void Update()
         {
-            if (Input.GetKeyUp(KeyCode.Alpha1))
+            TestUpdate();
+        }
+
+        private void TestUpdate()
+        {
+            Hp -= 10f * Time.deltaTime;
+            if (Hp <= 0f)
             {
                 Hp = 100f;
-            }
-            else if (Input.GetKeyUp(KeyCode.Alpha2))
-            {
-                Hp = 75f;
-            }
-            else if (Input.GetKeyUp(KeyCode.Alpha3))
-            {
-                Hp = 45f;
-            }
-            else if (Input.GetKeyUp(KeyCode.Alpha4))
-            {
-                Hp = 22f;
-            }
-            else if (Input.GetKeyUp(KeyCode.Alpha5))
-            {
-                Hp = 0f;
+                Debug.Log("End of test");
             }
         }
-    
+        
         /**
- * 메서드에 대한 설명을 작성할 수 있다
- * (메서드 이름 위에 마우스를 올려 놓으면 확인 가능)
- */
+        * 메서드에 대한 설명을 작성할 수 있다
+        * (메서드 이름 위에 마우스를 올려 놓으면 확인 가능)
+        */
         void IAttack.ApplyCriticalHit()
         {
         
             if (_isCriticalHit)
                 _damage = _damage * _criticalMultiplier;
         }
+        
         /// <summary>
         /// 메서드 위에 작성하면 변수 등에 대한 안내서 기록 가능
         /// </summary>
@@ -124,7 +78,5 @@ namespace TestJ
             throw new System.NotImplementedException();
             //SetState(BossState.NormalAttack);
         }
-        
-        public BossState bossState;
     }
 }
