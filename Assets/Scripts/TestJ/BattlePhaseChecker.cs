@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace TestJ
@@ -19,6 +20,8 @@ namespace TestJ
             CheckPoint,
             Final
         }
+
+        public event Action OnPhaseChange;
         
         private Boss _boss;
         private Phase _phase;
