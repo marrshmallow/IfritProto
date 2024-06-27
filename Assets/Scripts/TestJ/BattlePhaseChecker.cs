@@ -1,6 +1,4 @@
-using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace TestJ
 {
@@ -21,8 +19,6 @@ namespace TestJ
             CheckPoint,
             Final
         }
-
-        public event Action OnPhaseChange;
         
         private Boss _boss;
         public static Phase CurrentPhase;
@@ -31,6 +27,7 @@ namespace TestJ
         private void Start()
         {
             _boss = FindFirstObjectByType<Boss>();
+            EventManager.EventManagerInstance.PhaseSwitch += Test;
         }
 
         private void Update()
@@ -82,8 +79,15 @@ namespace TestJ
             // TODO: Invoke OnSwitchedPhase event (Listener: Boss)
             // TODO: Boss will change Attack Pattern when OnSwitchedPhase event is invoked
             // 1. Event is invoked
+            EventManager.EventManagerInstance.OnPhaseSwitched(); // OK
+            // 지금 이 상태에서 아무것도 구독된 메소드가 없어서 null이라고 뜰 것
             // 2. PhaseChecker emits
             // TODO: How to design Attack Pattern
+        }
+
+        private void Test()
+        {
+            Debug.Log("Phase change event invoked!");
         }
     }
 }
