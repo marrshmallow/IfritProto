@@ -1,8 +1,5 @@
 using UnityEngine;
 
-// TODO: 치명타 여부를 판정하는데 홀짝 구분으로 하면 확률이 반반이라 안되겠지...?
-// 나머지 값이 어느 범위 안에 들어오냐 그걸로 구분할까?
-
 namespace TestJ
 {
     /// <summary>
@@ -20,9 +17,6 @@ namespace TestJ
     ///
     /// Boss 프리팹 안에 Sensor라는 이름g으로 스피어 컬라이더 생성: 현재 지름 3
     /// </summary>
-
-// TODO: 일단은 쪼개고 중간에서 합쳐주는 방법으로 가자
-
     public class BossAI : MonoBehaviour
     {
         public Transform playerTransform; // 플레이어의 트랜스폼 TODO: 플레이어 스크립트에서 직접 참조할지 나중에 생각하기

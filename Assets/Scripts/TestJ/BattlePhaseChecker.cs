@@ -76,13 +76,12 @@ namespace TestJ
             // 이 밑으로는 딱 한 번 씩만 실행된다.
             //Debug.Log($"Switched {CurrentPhase} to {_newPhase}");
             CurrentPhase = _newPhase;
-            // TODO: Invoke OnSwitchedPhase event (Listener: Boss)
+            // Invoke OnSwitchedPhase event (Listener: Boss)
             // TODO: Boss will change Attack Pattern when OnSwitchedPhase event is invoked
             // 1. Event is invoked
             EventManager.EventManagerInstance.OnPhaseSwitched(); // OK
             // 지금 이 상태에서 아무것도 구독된 메소드가 없어서 null이라고 뜰 것
             // 2. PhaseChecker emits
-            // TODO: How to design Attack Pattern
         }
 
         private void Test()

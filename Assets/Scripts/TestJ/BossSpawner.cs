@@ -26,7 +26,7 @@ namespace TestJ
          *
          * 지금 떠오르는 해결 방안으로서는
          * Rigidbody를 새로 만들어서 그것과 캡슐 컬라이더를 다른 곳으로 옮기는 것
-         * >> TODO: How to have multiple colliders check for differerent OnCollider/Trigger events properly
+         * >> TODO: How to have multiple colliders check for different OnCollider/Trigger events properly
          */
         private void Spawn()
         {
