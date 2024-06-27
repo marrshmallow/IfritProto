@@ -3,7 +3,7 @@ using Random = UnityEngine.Random;
 
 namespace TestJ
 {
-    public class Boss : MonoBehaviour, IAttack
+    public class Boss : MonoBehaviour
     {
         private float _hp;
 
@@ -24,6 +24,7 @@ namespace TestJ
         public float MinDis => minDis;
         
         [SerializeField] private float skillDis = 5f; // 보스가 스킬을 사용할 수 있는 거리
+        private IAttack _attackImplementation;
         public float SkillDis => skillDis;
 
         // Phase 변경 이벤트 수신
@@ -45,38 +46,7 @@ namespace TestJ
             if (Hp <= 0f)
             {
                 Hp = 100f;
-                Debug.Log("End of test");
             }
-        }
-        
-        /**
-        * 메서드에 대한 설명을 작성할 수 있다
-        * (메서드 이름 위에 마우스를 올려 놓으면 확인 가능)
-        */
-        void IAttack.ApplyCriticalHit()
-        {
-        
-            if (_isCriticalHit)
-                _damage = _damage * _criticalMultiplier;
-        }
-        
-        /// <summary>
-        /// 메서드 위에 작성하면 변수 등에 대한 안내서 기록 가능
-        /// </summary>
-        public void NormalAttack()
-        {
-            _damage = Random.Range(50, 60);
-        
-            if (_isCriticalHit)
-                _damage = _damage * _criticalMultiplier;
-        
-            Debug.Log("보스가 플레이어에게 " + _damage + "만큼 피해!");
-        }
-
-        void IAttack.SkillAttack()
-        {
-            throw new System.NotImplementedException();
-            //SetState(BossState.NormalAttack);
         }
     }
 }

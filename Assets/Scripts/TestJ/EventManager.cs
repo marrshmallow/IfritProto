@@ -19,11 +19,18 @@ namespace TestJ
             PhaseSwitch?.Invoke();
         }
 
-        public event Action GameStateChange;
+        public event Action BattleStateChange;
 
-        public void OnGameStateChanged()
+        public void OnBattleStateChanged()
         {
-            GameStateChange?.Invoke();
+            BattleStateChange?.Invoke();
+        }
+
+        public event Action InitiateBattle;
+
+        public void OnBattleInitiated()
+        {
+            InitiateBattle?.Invoke();
         }
     }
 }

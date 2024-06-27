@@ -28,10 +28,11 @@ namespace TestJ
         
         private void Update()
         {
-            if (!_sensor.provoked) return;
+            // TODO: 나중에 고치기
+            /*if (!_sensor.provoked) return;
             {
                 StartPursue();
-            }
+            }*/
         }
 
         //TODO: 시작하는 부분은 코루틴으로 해야할 듯. 이것도 State 나눠서 해야하지 않을까

@@ -23,7 +23,7 @@ namespace TestJ
         private Boss _boss;
         public static Phase CurrentPhase;
         private Phase _newPhase;
-        
+
         private void Start()
         {
             _boss = FindFirstObjectByType<Boss>();
@@ -69,12 +69,12 @@ namespace TestJ
             // 매 프레임마다 실행된다 (이 사이에 뭔가 값을 주면 평생 고정)
             if (CurrentPhase != Phase.Default && CurrentPhase == _newPhase)
             {
-                Debug.Log($"Cannot switch phase! Current phase: {CurrentPhase}");
+                //Debug.Log($"Cannot switch phase! Current phase: {CurrentPhase}");
                 return;
             }
             
             // 이 밑으로는 딱 한 번 씩만 실행된다.
-            Debug.Log($"Switched {CurrentPhase} to {_newPhase}");
+            //Debug.Log($"Switched {CurrentPhase} to {_newPhase}");
             CurrentPhase = _newPhase;
             // TODO: Invoke OnSwitchedPhase event (Listener: Boss)
             // TODO: Boss will change Attack Pattern when OnSwitchedPhase event is invoked
@@ -87,7 +87,7 @@ namespace TestJ
 
         private void Test()
         {
-            Debug.Log("Phase change event invoked!");
+            Debug.Log("Phase switch event invoked!");
         }
     }
 }
