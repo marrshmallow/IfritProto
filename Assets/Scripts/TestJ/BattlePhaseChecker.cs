@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace TestJ
 {
@@ -12,7 +13,7 @@ namespace TestJ
     /// </summary>
     public class BattlePhaseChecker : MonoBehaviour
     {
-        private enum Phase
+        public enum Phase
         {
             Default,
             A,
@@ -24,7 +25,7 @@ namespace TestJ
         public event Action OnPhaseChange;
         
         private Boss _boss;
-        private Phase _phase;
+        public static Phase CurrentPhase;
         private Phase _newPhase;
         
         private void Start()
@@ -69,15 +70,15 @@ namespace TestJ
             }
             
             // 매 프레임마다 실행된다 (이 사이에 뭔가 값을 주면 평생 고정)
-            if (_phase != Phase.Default && _phase == _newPhase)
+            if (CurrentPhase != Phase.Default && CurrentPhase == _newPhase)
             {
-                Debug.Log($"Cannot switch phase! Current phase: {_phase}");
+                Debug.Log($"Cannot switch phase! Current phase: {CurrentPhase}");
                 return;
             }
             
             // 이 밑으로는 딱 한 번 씩만 실행된다.
-            Debug.Log($"Switched {_phase} to {_newPhase}");
-            _phase = _newPhase;
+            Debug.Log($"Switched {CurrentPhase} to {_newPhase}");
+            CurrentPhase = _newPhase;
             // TODO: Invoke OnSwitchedPhase event (Listener: Boss)
             // TODO: Boss will change Attack Pattern when OnSwitchedPhase event is invoked
             // 1. Event is invoked
