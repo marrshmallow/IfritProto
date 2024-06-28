@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.Serialization;
+using UnityEngine.UIElements;
 
 namespace TestJ
 {
@@ -19,11 +21,11 @@ namespace TestJ
         private PlayerDetector _sensor; // 플레이어 인식하는 코드가 인식한
         // 플레이어의 transform.position 정보를 받아오려고
         [SerializeField] private float moveSpeed = 1f; // 보스의 이동 속도
-        [SerializeField] private float maxDistance = 1000f; // 보스가 공격할 수 있는 거리
-        [SerializeField] private float minDistance = 3f; // 보스가 스킬을 사용할 수 있는 거리
+        [SerializeField] private float maxDistance = 3f; // 보스가 공격할 수 있는 거리
         public float result;
 
         private Vector3 boss;
+        [SerializeField] private GameObject bossTransform; // 프리팹 속 BossTransform을 게임오브젝트로 설정하기
         private Vector3 player;
 
         private void Start()
@@ -49,13 +51,19 @@ namespace TestJ
         {
             if (!_sensor.player) return;
             player = _sensor.player.transform.position;
-            // Raycast 비용은 많이 비싸다
             float d = Vector3.Distance(boss, player);
             result = Mathf.Sqrt(d);
+            
             // 플레이어가 자동 공격 범위 밖을 벗어났다면 추격 시작
-            // 위치 파악
-            // 회전
-            // 전진
+            if (result >= maxDistance)
+            {
+                // 위치 설정
+                Vector3 target = player;
+                Debug.Log($"Target out of range! Tracking down... Found target at: {player}");
+                // 회전
+                bossTransform.transform.LookAt(target, Vector3.up); // 뭔가 모양이 이상하다면 기준이 되는 축 확인해보기
+                // 전진
+            }
         }
         
         private void TestUpdate()
