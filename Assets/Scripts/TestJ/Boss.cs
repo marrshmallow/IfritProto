@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace TestJ
 {
-    public class Boss : MonoBehaviour
+    public class Boss : MonoBehaviour, IDamageable
     {
         private float _hp;
 
@@ -35,7 +35,7 @@ namespace TestJ
 
         private void Update()
         {
-            TestUpdate();
+            //TestUpdate();
         }
 
         private void TestUpdate()
@@ -44,6 +44,16 @@ namespace TestJ
             if (Hp <= 0f)
             {
                 Hp = 123f;
+            }
+        }
+
+        public void OnDamage(float damage)
+        {
+            // 플레이어한테서 inflictedDamage 받아서 Hp 수정
+            Hp -= damage;
+            if (Hp <= 0f)
+            {
+                Hp = 0f;
             }
         }
     }
