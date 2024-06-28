@@ -1,6 +1,5 @@
 using UnityEngine;
-using UnityEngine.Serialization;
-using UnityEngine.UIElements;
+using System.Collections;
 
 namespace TestJ
 {
@@ -24,7 +23,7 @@ namespace TestJ
         [SerializeField] private float maxDistance = 3f; // 보스가 공격할 수 있는 거리
         public float result;
 
-        private Vector3 boss;
+        private Vector3 bossT;
         [SerializeField] private GameObject bossTransform; // 프리팹 속 BossTransform을 게임오브젝트로 설정하기
         private Vector3 player;
 
@@ -33,8 +32,8 @@ namespace TestJ
             _t = GetComponent<Transform>();
             _sensor = transform.GetChild(1).GetComponent<PlayerDetector>();
             
-            EventManager.Instance.InitiateBattle += StartPursue;
-            boss = transform.position;
+            EventManager.Instance.InitiateBattle += Move;
+            bossT = bossTransform.transform.position;
         }
 
         private void FixedUpdate()
@@ -44,14 +43,14 @@ namespace TestJ
 
         private void OnDisable()
         {
-            EventManager.Instance.InitiateBattle -= StartPursue;
+            EventManager.Instance.InitiateBattle -= Move;
         }
 
         private void CheckDistance()
         {
             if (!_sensor.player) return;
             player = _sensor.player.transform.position;
-            float d = Vector3.Distance(boss, player);
+            float d = Vector3.Distance(bossT, player);
             result = Mathf.Sqrt(d);
             
             // 플레이어가 자동 공격 범위 밖을 벗어났다면 추격 시작
@@ -59,33 +58,18 @@ namespace TestJ
             {
                 // 위치 설정
                 Vector3 target = player;
+                // TODO: Out Of Range 아닌데 자꾸 표시됨 (뭔가 잘못되었다)
+                // TODO: Distance 표시도 뭔가 이상하다. 뭔가 잘 됐는데 잘못되었다!!!!!!!!!!!!!
                 Debug.Log($"Target out of range! Tracking down... Found target at: {player}");
-                // 회전
                 bossTransform.transform.LookAt(target, Vector3.up); // 뭔가 모양이 이상하다면 기준이 되는 축 확인해보기
-                // 전진
+                // TODO: 사실 한 번만 Rotate하게 해야 함. Move는 항상인데 Rotate만 따로
+                Move();
             }
         }
         
-        private void TestUpdate()
+        private void Move()
         {
-            // TODO: 나중에 고치기
-            /*if (!_sensor.provoked) return;
-            {
-                StartPursue();
-            }*/
-        }
-
-        //TODO: 시작하는 부분은 코루틴으로 해야할 듯. 이것도 State 나눠서 해야하지 않을까
-        private void StartPursue()
-        {
-            Vector3 p = _sensor.player.transform.position;
-            
-            //_t.transform.LookAt(p);
-            
-            // 이까지만 했을 때의 문제는 보스가 목표 지점에 다다를 수록 속도가 느려진다는 것
-            // TODO: 이게 원래 내가 원하는 효과인지 아닌지 결정하기. 공부는 당연히 해놓기.
-
-            Vector3 targetPos = new Vector3(p.x - _t.position.x, 0f, p.z - _t.position.z);
+            Vector3 targetPos = new Vector3(player.x - _t.position.x, 0f, player.z - _t.position.z);
             targetPos.Normalize();
             // 여기서 그냥 _t.position += moveSpeed * Time.deltaTime * dir를 해버리면
             // 보스가 마지막에 비정상적으로 왔다갔다 하는 문제가 발생한다
@@ -98,6 +82,7 @@ namespace TestJ
             Vector3 targetDir = Vector3.MoveTowards(_t.position, targetPos, moveSpeed * Time.deltaTime);
             // https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Vector3.MoveTowards.html
             _t.position -= moveSpeed * Time.deltaTime * targetDir; // MoveTowards()를 사용해서 나온 값의 용도를 착각했기 때문에 문제 발생
+            Debug.Log("???");
         }
     }
 }

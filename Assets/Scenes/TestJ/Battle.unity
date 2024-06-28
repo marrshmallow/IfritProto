@@ -976,12 +976,16 @@ PrefabInstance:
       value: Boss 3
       objectReference: {fileID: 0}
     - target: {fileID: 1133452102312212609, guid: e0a8abcca0f0f7d45b8efb749bbd84ab, type: 3}
+      propertyPath: moveSpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1133452102312212609, guid: e0a8abcca0f0f7d45b8efb749bbd84ab, type: 3}
       propertyPath: maxDistance
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3133731233287403825, guid: e0a8abcca0f0f7d45b8efb749bbd84ab, type: 3}
       propertyPath: minDis
-      value: 20
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3940158337250143610, guid: e0a8abcca0f0f7d45b8efb749bbd84ab, type: 3}
       propertyPath: m_LocalPosition.x
