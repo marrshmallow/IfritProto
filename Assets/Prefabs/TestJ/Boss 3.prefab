@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3963043811185426633}
   - component: {fileID: 3133731233287403825}
   - component: {fileID: 2879318904256848092}
+  - component: {fileID: 1133452102312212609}
   m_Layer: 6
   m_Name: Boss 3
   m_TagString: Boss
@@ -117,6 +118,19 @@ MonoBehaviour:
   attack: 0
   missionFailed: 0
   aaInterval: 3
+--- !u!114 &1133452102312212609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 586488960546065647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86a0ce8b493bdb74ab764b66ae2e6c1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 0
 --- !u!1 &3936662669110196443
 GameObject:
   m_ObjectHideFlags: 0

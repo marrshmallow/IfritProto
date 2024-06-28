@@ -18,15 +18,49 @@ namespace TestJ
         private Transform _t; // 보스의 트랜트폼
         private PlayerDetector _sensor; // 플레이어 인식하는 코드가 인식한
                                         // 플레이어의 transform.position 정보를 받아오려고
-        [SerializeField] private float moveSpeed; // 보스의 이동 속도
+        [SerializeField] private float moveSpeed = 1f; // 보스의 이동 속도
+        [SerializeField] private float maxDistance = 10f; // 보스가 공격할 수 있는 거리
+        [SerializeField] private float minDistance = 3f; // 보스가 스킬을 사용할 수 있는 거리
 
         private void Start()
         {
             _t = GetComponent<Transform>();
             _sensor = transform.GetChild(1).GetComponent<PlayerDetector>();
+            EventManager.Instance.InitiateBattle += StartPursue;
+        }
+
+        private void FixedUpdate()
+        {
+            CheckDistance();
+        }
+
+        private void OnDisable()
+        {
+            EventManager.Instance.InitiateBattle -= StartPursue;
+        }
+
+        private void CheckDistance()
+        {
+            int layermask = 2;
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position + new Vector3(0f, 10f, 0f), Vector3.forward, out hit, maxDistance, layermask))
+            {
+                Debug.DrawRay(transform.position + new Vector3(0f, 10f, 0f), transform.TransformDirection(Vector3.forward) * hit.distance,
+                    Color.blue);
+                Debug.Log($"Player is within {maxDistance}");
+            }
+            else
+            {
+                Debug.DrawRay(transform.position + new Vector3(0f, 10f, 0f), transform.TransformDirection(Vector3.forward) * 1000f, Color.white);
+            }
+            // 다음 FixedUpdate 때 Raycast로 거리 측정
+            // 플레이어가 자동 공격 범위 밖을 벗어났다면 추격 시작
+            // 위치 파악
+            // 회전
+            // 전진
         }
         
-        private void Update()
+        private void TestUpdate()
         {
             // TODO: 나중에 고치기
             /*if (!_sensor.provoked) return;
