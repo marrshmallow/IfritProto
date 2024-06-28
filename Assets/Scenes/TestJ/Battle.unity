@@ -975,18 +975,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Boss 3
       objectReference: {fileID: 0}
-    - target: {fileID: 1133452102312212609, guid: e0a8abcca0f0f7d45b8efb749bbd84ab, type: 3}
-      propertyPath: moveSpeed
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1133452102312212609, guid: e0a8abcca0f0f7d45b8efb749bbd84ab, type: 3}
-      propertyPath: maxDistance
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3133731233287403825, guid: e0a8abcca0f0f7d45b8efb749bbd84ab, type: 3}
-      propertyPath: minDis
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 3940158337250143610, guid: e0a8abcca0f0f7d45b8efb749bbd84ab, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1027,7 +1015,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3963043811185426633, guid: e0a8abcca0f0f7d45b8efb749bbd84ab, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

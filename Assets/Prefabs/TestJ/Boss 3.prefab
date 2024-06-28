@@ -100,7 +100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad5cdc20272094d47b2df94418c8ac2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minDis: 100
+  minDis: 3
   skillDis: 5
 --- !u!114 &2879318904256848092
 MonoBehaviour:
@@ -130,10 +130,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86a0ce8b493bdb74ab764b66ae2e6c1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 0
+  moveSpeed: 1
   maxDistance: 3
   result: 0
-  bossTransform: {fileID: 8197844007738230669}
+  bossRotatePivot: {fileID: 8197844007738230669}
 --- !u!1 &3936662669110196443
 GameObject:
   m_ObjectHideFlags: 0
@@ -357,6 +357,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9006281187974719909}
+  - component: {fileID: 4410214116724934107}
   m_Layer: 6
   m_Name: BossTransform
   m_TagString: Untagged
@@ -380,6 +381,29 @@ Transform:
   - {fileID: 3529592721953468945}
   m_Father: {fileID: 7696433745747032111}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &4410214116724934107
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8197844007738230669}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 25
+  m_Height: 100
+  m_Direction: 2
+  m_Center: {x: 0, y: 24, z: 0}
 --- !u!1 &8267166810309803699
 GameObject:
   m_ObjectHideFlags: 0

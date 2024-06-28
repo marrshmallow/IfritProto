@@ -12,7 +12,7 @@ namespace TestJ
     {
         private Boss _boss;
         public GameObject player;
-        public EEnemyState myState; // TODO: Set to private later
+        public static EEnemyState BossState;
         private EEnemyState _newState;
 
         /*
@@ -44,7 +44,7 @@ namespace TestJ
 
         private void ChangeState()
         {
-            switch (myState)
+            switch (BossState)
             {
                 case EEnemyState.Idle:
                 {
@@ -71,18 +71,19 @@ namespace TestJ
                     break;
             }
 
-            if (myState == _newState) return;
+            if (BossState == _newState) return;
             EventManager.Instance.OnBattleStateChanged();
         }
 
         private void UpdateState()
         {
-            myState = _newState;
+            BossState = _newState;
         }
 
         private void InitiateBattle()
         {
-            myState = EEnemyState.Evoked;
+            BossState = EEnemyState.Evoked;
+            BattleStateChecker.CurrentState = BattleStateChecker.BattleState.Battle;
         }
         
         private void OnDisable()

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace TestJ
@@ -26,7 +25,7 @@ namespace TestJ
         [SerializeField] private float skillDis = 5f; // 보스가 스킬을 사용할 수 있는 거리
         private IAttack _attackImplementation;
         public float SkillDis => skillDis;
-
+        
         private void Start()
         {
             _autoAttackInterval = 3f;

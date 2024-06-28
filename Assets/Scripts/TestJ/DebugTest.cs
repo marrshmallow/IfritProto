@@ -32,9 +32,9 @@ namespace TestJ
             bossHp.text = $"Boss HP: {i}";
             currentPhase = BattlePhaseChecker.CurrentPhase;
             phase.text = $"Phase: {currentPhase}";
-            currentGameState = BattleStateChecker._currentState;
+            currentGameState = BattleStateChecker.CurrentState;
             gameState.text = $"State: {currentGameState}";
-            currentBossState = _bossSensor.myState;
+            currentBossState = PlayerDetector.BossState;
             bossState.text = $"Boss State: {currentBossState}";
         }
 
