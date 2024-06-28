@@ -5,25 +5,21 @@ namespace TestJ
     // TODO: 조건문 다시 확인 (제대로 전환이 안되고 있음)
     public class BattleStateChecker : MonoBehaviour
     {
-        public enum BattleState
+        public enum BattleState // TODO: set to private later on
         {
             Default,
-            Battle,
-            Victory,
-            Defeat
+            Battle
         }
 
-        private Boss _boss;
-        public static BattleState CurrentState;
+        public static BattleState _currentState; // TODO: Set to private later on
         private BattleState _newState;
         private float _playerHp; // 플레이어 쪽에서 불러오기
 
         private void Start()
         {
-            _boss = FindFirstObjectByType<Boss>();
             _playerHp = 100f;
             //_player = FindFirstObjectByType<Player>();
-            EventManager.EventManagerInstance.BattleStateChange += Test;
+            EventManager.Instance.BattleStateChange += UpdateState;
         }
 
         private void Update()
@@ -38,33 +34,22 @@ namespace TestJ
 
         private void ChangeState()
         {
-            if (_boss.Hp <= 0f && _playerHp > 0f)
-            {
-                _newState = BattleState.Victory;
-            }
-            else if (_boss.Hp < 0f && _playerHp <= 0f)
-            {
-                _newState = BattleState.Defeat;
-            }
-            else if (BattlePhaseChecker.CurrentPhase == BattlePhaseChecker.Phase.Default)
+            if (BattlePhaseChecker.CurrentPhase == BattlePhaseChecker.Phase.Default)
             {
                 _newState = BattleState.Default;
             }
+            else
+            {
+                _newState = BattleState.Battle;
+            }
             
-            if (CurrentState == _newState) return;
-            CurrentState = _newState;
-            EventManager.EventManagerInstance.OnBattleStateChanged();
+            if (_currentState == _newState) return;
+            EventManager.Instance.OnBattleStateChanged();
         }
 
-        private void Test()
+        private void UpdateState()
         {
-            Debug.Log("Battle state change event invoked!");
-        }
-
-        public void StartBattle()
-        {
-            CurrentState = BattleState.Battle;
-            Debug.Log("!");
+            _currentState = _newState;
         }
     }
 }

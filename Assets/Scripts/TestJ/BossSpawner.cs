@@ -13,7 +13,7 @@ namespace TestJ
         [SerializeField] private Vector3 spawnPos = new Vector3(0f, 0f, 138f);
         [SerializeField] private Vector3 childPos = new Vector3(0f, 0f, 0f);
 
-        private void Start()
+        private void Awake()
         {
             Spawn();
         }

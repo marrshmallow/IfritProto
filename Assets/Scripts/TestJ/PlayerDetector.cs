@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace TestJ
@@ -9,7 +10,11 @@ namespace TestJ
     /// </summary>
     public class PlayerDetector : MonoBehaviour
     {
+        private Boss _boss;
         public GameObject player;
+        public EEnemyState myState; // TODO: Set to private later
+        private EEnemyState _newState;
+
         /*
          * 보스가 플레이어를 인식하게 하는 것
          * 플레이어 태그를 가진 오브젝트가 들어오면
@@ -21,29 +26,68 @@ namespace TestJ
 
         private void Start()
         {
-            EventManager.EventManagerInstance.InitiateBattle += DetectPlayer;
+            _boss = transform.parent.GetComponent<Boss>();
+            EventManager.Instance.InitiateBattle += InitiateBattle;
+        }
+
+        private void Update()
+        {
+            //ChangeState();
         }
         
         private void OnTriggerEnter(Collider other)
         {
-            if (other.gameObject.layer == 3)
-            {
-                player = other.gameObject;
-                DetectPlayer();
-            }
+            if (other.gameObject.layer != 3) return;
+            player = other.gameObject;
+            EventManager.Instance.OnBattleInitiated();
         }
 
-        private void DetectPlayer()
+        private void ChangeState()
         {
-            // 플레이어를 인식...
-            //_provoked = true;
-            Debug.Log("플레이어 감지. 상태: 전투");
-            //player = other.GetComponent<Player>(); // 주의: 컬라이더와 같은 오브젝트에 해당 스크립트가 연결되어 있지 않으면 불러올 수 없다
-            /*
-             * 충돌체크는 물리엔진이 하고, 그 정보를 받아서 처리하는 것은 Rigidbody
-             * 자식 오브젝트에 컬라이더가 있는데 같은 오브젝트에 Rigidbody가 없다면, Rigidbody를 찾아서 점점 위로 올라가게 된다.
-             * 올라가는 도중에 찾는 가장 첫 번째 Rigidbody에 모든 충돌 정보를 전달
-             */
+            switch (myState)
+            {
+                case EEnemyState.Idle:
+                {
+                    _newState = EEnemyState.Evoked;
+                }
+                    break;
+                case EEnemyState.Evoked:
+                {
+                    if (_boss.Hp <= 0f)
+                    {
+                        _newState = EEnemyState.Dead;
+                    }
+                    
+                    // 보스 아니고 일반 적 관련 처리인데 왜 여기다 적니이이이이
+                    /*if (Hp > 0f) // && player OnTriggerExit
+                    {
+                        newState = EEnemyState.Idle;
+                    }
+                    else if (Hp <= 0f) // && player OnTriggerExit didn't happen
+                    {
+                        newState = EEnemyState.Dead;
+                    }*/
+                }
+                    break;
+            }
+
+            if (myState == _newState) return;
+            EventManager.Instance.OnBattleStateChanged();
+        }
+
+        private void UpdateState()
+        {
+            myState = _newState;
+        }
+
+        private void InitiateBattle()
+        {
+            myState = EEnemyState.Evoked;
+        }
+        
+        private void OnDisable()
+        {
+            EventManager.Instance.InitiateBattle -= InitiateBattle;
         }
     }
 }

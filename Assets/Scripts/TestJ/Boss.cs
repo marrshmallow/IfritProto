@@ -1,5 +1,5 @@
+using System;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace TestJ
 {
@@ -27,12 +27,10 @@ namespace TestJ
         private IAttack _attackImplementation;
         public float SkillDis => skillDis;
 
-        // Phase 변경 이벤트 수신
-
         private void Start()
         {
             _autoAttackInterval = 3f;
-            Hp = 100f;
+            Hp = 123f;
         }
 
         private void Update()
@@ -45,7 +43,7 @@ namespace TestJ
             Hp -= 10f * Time.deltaTime;
             if (Hp <= 0f)
             {
-                Hp = 100f;
+                Hp = 123f;
             }
         }
     }

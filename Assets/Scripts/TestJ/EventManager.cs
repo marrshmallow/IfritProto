@@ -5,11 +5,11 @@ namespace TestJ
 {
     public class EventManager : MonoBehaviour
     {
-        public static EventManager EventManagerInstance;
+        public static EventManager Instance;
 
         private void Awake()
         {
-            EventManagerInstance = this;
+            Instance = this;
         }
 
         public event Action PhaseSwitch;

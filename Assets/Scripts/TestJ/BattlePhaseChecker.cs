@@ -4,10 +4,9 @@ namespace TestJ
 {
     /// <summary>
     /// 보스의 HP를 읽어서 조건을 만족하면 Phase 상태를 변경시켜주고
-    /// OnPhaseChanged 이벤트를 발생시킨다.
+    /// OnPhaseSwitched 이벤트를 발생시킨다.
     ///
-    /// 보스는 OnPhaseChanged 이벤트를 구독하며,
-    /// 이벤트가 발생할 때마다 Phase 상태를 체크하고 공격모드를 변경한다.
+    /// BossState가 Evoked이면 작동 시작
     /// </summary>
     public class BattlePhaseChecker : MonoBehaviour
     {
@@ -27,7 +26,7 @@ namespace TestJ
         private void Start()
         {
             _boss = FindFirstObjectByType<Boss>();
-            EventManager.EventManagerInstance.PhaseSwitch += Test;
+            EventManager.Instance.PhaseSwitch += Test;
         }
 
         private void Update()
@@ -75,18 +74,18 @@ namespace TestJ
             
             // 이 밑으로는 딱 한 번 씩만 실행된다.
             //Debug.Log($"Switched {CurrentPhase} to {_newPhase}");
-            CurrentPhase = _newPhase;
             // Invoke OnSwitchedPhase event (Listener: Boss)
             // TODO: Boss will change Attack Pattern when OnSwitchedPhase event is invoked
             // 1. Event is invoked
-            EventManager.EventManagerInstance.OnPhaseSwitched(); // OK
+            EventManager.Instance.OnPhaseSwitched(); // OK
             // 지금 이 상태에서 아무것도 구독된 메소드가 없어서 null이라고 뜰 것
             // 2. PhaseChecker emits
         }
 
         private void Test()
         {
-            Debug.Log("Phase switch event invoked!");
+            CurrentPhase = _newPhase;
+            //Debug.Log($"Phase switch event invoked!: NOW {CurrentPhase}");
         }
     }
 }
