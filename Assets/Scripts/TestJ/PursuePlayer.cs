@@ -17,16 +17,22 @@ namespace TestJ
     {
         private Transform _t; // 보스의 트랜트폼
         private PlayerDetector _sensor; // 플레이어 인식하는 코드가 인식한
-                                        // 플레이어의 transform.position 정보를 받아오려고
+        // 플레이어의 transform.position 정보를 받아오려고
         [SerializeField] private float moveSpeed = 1f; // 보스의 이동 속도
-        [SerializeField] private float maxDistance = 10f; // 보스가 공격할 수 있는 거리
+        [SerializeField] private float maxDistance = 1000f; // 보스가 공격할 수 있는 거리
         [SerializeField] private float minDistance = 3f; // 보스가 스킬을 사용할 수 있는 거리
+        public float result;
+
+        private Vector3 boss;
+        private Vector3 player;
 
         private void Start()
         {
             _t = GetComponent<Transform>();
             _sensor = transform.GetChild(1).GetComponent<PlayerDetector>();
+            
             EventManager.Instance.InitiateBattle += StartPursue;
+            boss = transform.position;
         }
 
         private void FixedUpdate()
@@ -41,19 +47,11 @@ namespace TestJ
 
         private void CheckDistance()
         {
-            int layermask = 2;
-            RaycastHit hit;
-            if (Physics.Raycast(transform.position + new Vector3(0f, 10f, 0f), Vector3.forward, out hit, maxDistance, layermask))
-            {
-                Debug.DrawRay(transform.position + new Vector3(0f, 10f, 0f), transform.TransformDirection(Vector3.forward) * hit.distance,
-                    Color.blue);
-                Debug.Log($"Player is within {maxDistance}");
-            }
-            else
-            {
-                Debug.DrawRay(transform.position + new Vector3(0f, 10f, 0f), transform.TransformDirection(Vector3.forward) * 1000f, Color.white);
-            }
-            // 다음 FixedUpdate 때 Raycast로 거리 측정
+            if (!_sensor.player) return;
+            player = _sensor.player.transform.position;
+            // Raycast 비용은 많이 비싸다
+            float d = Vector3.Distance(boss, player);
+            result = Mathf.Sqrt(d);
             // 플레이어가 자동 공격 범위 밖을 벗어났다면 추격 시작
             // 위치 파악
             // 회전
