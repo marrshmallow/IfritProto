@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 /*
  * 코루틴을 사용하는 세 가지 방법
@@ -58,9 +59,11 @@ namespace TestJ
         [SerializeField] private float aaInterval = 3f; // 자동공격 간격
         private float _transitionPadding;
 
+        private BattleStateChecker.BattleState _battleState;
+        
         private void Start()
         {
-            StartCoroutine(nameof(AAtest));
+            EventManager.Instance.InitiateBattle += StartAttack;
         }
         
         private void Update()
@@ -70,13 +73,9 @@ namespace TestJ
             //AutoAttack();
         }
 
-        private void CheckDistance()
+        private void OnDisable()
         {
-            // 플레이어가 있는 위치 확인
-            
-            // 보스의 위치를 빼서 거리 확인
-            // 거리와 기준 거리를 대조
-            // 거리와 기준 거리 2를 대조
+            EventManager.Instance.InitiateBattle -= StartAttack;
         }
 
         /**
@@ -94,8 +93,6 @@ namespace TestJ
                 _isCriticalHit = false;
             }*/
         }
-        
-
 
         /*// 페이즈 1일 때 보스의 스킬 룰렛 안
         private void SelectSkill1()
@@ -160,6 +157,11 @@ namespace TestJ
         private void UseAttackSkill()
         {
         }*/
+
+        private void StartAttack()
+        {
+            StartCoroutine(nameof(AAtest));
+        }
         
         private IEnumerator AAtest()
         {
@@ -311,8 +313,6 @@ namespace TestJ
                 case 2:
                     break;
                 case 3:
-                    break;
-                default:
                     break;
             }
             yield break;
