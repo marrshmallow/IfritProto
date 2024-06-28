@@ -11,9 +11,10 @@ namespace TestJ
     {
         [SerializeField] private GameObject bossPrefab;
         [SerializeField] private GameObject childPrefab;
+        private GameObject spawnedChild;
         [SerializeField] private Vector3 spawnPos = new Vector3(0f, 0f, 138f);
         [SerializeField] private Vector3 childPos = new Vector3(0f, 0f, 0f);
-
+        
         private void Awake()
         {
             Spawn();
@@ -22,11 +23,13 @@ namespace TestJ
         private void Start()
         {
             EventManager.Instance.PhaseSwitch += SpawnChild;
+            EventManager.Instance.PhaseSwitch += DestroyChild;
         }
 
         private void OnDisable()
         {
             EventManager.Instance.PhaseSwitch -= SpawnChild;
+            EventManager.Instance.PhaseSwitch -= DestroyChild;
         }
 
         /**
@@ -53,7 +56,13 @@ namespace TestJ
         private void SpawnChild()
         {
             if (BattlePhaseChecker.CurrentPhase != BattlePhaseChecker.Phase.B) return;
-            GameObject child = Instantiate(childPrefab, childPos, Quaternion.identity);
+            spawnedChild = Instantiate(childPrefab, childPos, Quaternion.identity);
+        }
+
+        private void DestroyChild()
+        {
+            if (BattlePhaseChecker.CurrentPhase != BattlePhaseChecker.Phase.CheckPoint) return;
+            Destroy(spawnedChild);
         }
     }
 }

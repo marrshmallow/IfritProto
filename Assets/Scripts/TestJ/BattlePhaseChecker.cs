@@ -12,11 +12,12 @@ namespace TestJ
     {
         public enum Phase
         {
-            Default,
-            A,
-            B,
-            CheckPoint,
-            Final
+            Default = 0,
+            A = 100,
+            B = 200,
+            CheckPoint = 300,
+            //Transition = 400, // Boss is Invincible, All attacks are canceled
+            Final = 500
         }
         
         private Boss _boss;
