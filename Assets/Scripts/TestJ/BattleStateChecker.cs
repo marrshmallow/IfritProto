@@ -13,7 +13,7 @@ namespace TestJ
 
         public static BattleState CurrentState;
         private BattleState _newState;
-        private float _playerHp; // 플레이어 쪽에서 불러오
+        private float _playerHp; // 플레이어 쪽에서 불러오기
         private Boss _boss;
 
         private void Start()
@@ -36,13 +36,23 @@ namespace TestJ
 
         private void ChangeState()
         {
-            if (_playerHp <= 0f || _boss.Hp <= 0f)
+            if (_playerHp <= 0f || PlayerDetector.BossState == EEnemyState.Dead)
             {
                 _newState = BattleState.Default;
             }
-            else if (PlayerDetector.BossState == EEnemyState.Idle)
+            else if (PlayerDetector.BossState == EEnemyState.Evoked)
             {
-                //if ()
+                _newState = BattleState.Battle;
+            }
+            else
+            {
+                _newState = BattleState.Default;
+            }
+
+            if (CurrentState == _newState) return;
+            if (CurrentState != _newState)
+            {
+                EventManager.Instance.OnBattleStateChanged();
             }
         }
 

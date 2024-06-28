@@ -28,11 +28,12 @@ namespace TestJ
         {
             _boss = transform.parent.GetComponent<Boss>();
             EventManager.Instance.InitiateBattle += InitiateBattle;
+            EventManager.Instance.BattleStateChange += UpdateState;
         }
 
         private void Update()
         {
-            //ChangeState();
+            ChangeState();
         }
         
         private void OnTriggerEnter(Collider other)
@@ -46,6 +47,15 @@ namespace TestJ
         {
             switch (BossState)
             {
+                case EEnemyState.Evoked when _boss.Hp > 0f:
+                    return;
+                case EEnemyState.Evoked when _boss.Hp <= 0f:
+                    _newState = EEnemyState.Dead;
+                    break;
+            }
+
+            /*switch (BossState)
+            {
                 case EEnemyState.Idle:
                 {
                     _newState = EEnemyState.Evoked;
@@ -56,8 +66,9 @@ namespace TestJ
                     if (_boss.Hp <= 0f)
                     {
                         _newState = EEnemyState.Dead;
+                        Debug.Log("???");
                     }
-                    
+
                     // 보스 아니고 일반 적 관련 처리인데 왜 여기다 적니이이이이
                     /*if (Hp > 0f) // && player OnTriggerExit
                     {
@@ -66,10 +77,10 @@ namespace TestJ
                     else if (Hp <= 0f) // && player OnTriggerExit didn't happen
                     {
                         newState = EEnemyState.Dead;
-                    }*/
+                    }#1#
                 }
                     break;
-            }
+            }*/
 
             if (BossState == _newState) return;
             EventManager.Instance.OnBattleStateChanged();
@@ -89,6 +100,7 @@ namespace TestJ
         private void OnDisable()
         {
             EventManager.Instance.InitiateBattle -= InitiateBattle;
+            EventManager.Instance.BattleStateChange -= UpdateState;
         }
     }
 }
