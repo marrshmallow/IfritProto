@@ -63,6 +63,9 @@ namespace TestJ
         
         private void Start()
         {
+            /*
+             * Needs to wait until PlayerDetector.distance is under maxDistance
+             */
             EventManager.Instance.InitiateBattle += StartAttack;
         }
         

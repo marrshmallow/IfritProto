@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace TestJ
@@ -17,7 +18,17 @@ namespace TestJ
         {
             Spawn();
         }
-        
+
+        private void Start()
+        {
+            EventManager.Instance.PhaseSwitch += SpawnChild;
+        }
+
+        private void OnDisable()
+        {
+            EventManager.Instance.PhaseSwitch -= SpawnChild;
+        }
+
         /**
          * 사용할 프리팹: Boss 2
          * Boss 1은 Capsule Collider가 있고 2에는 없다.
@@ -41,6 +52,7 @@ namespace TestJ
          */
         private void SpawnChild()
         {
+            if (BattlePhaseChecker.CurrentPhase != BattlePhaseChecker.Phase.B) return;
             GameObject child = Instantiate(childPrefab, childPos, Quaternion.identity);
         }
     }

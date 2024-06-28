@@ -34,7 +34,8 @@ namespace TestJ
 
         private void Update()
         {
-            //TestUpdate();
+            if (PlayerDetector.BossState != EEnemyState.Evoked) return;
+            TestUpdate();
         }
 
         private void TestUpdate()
