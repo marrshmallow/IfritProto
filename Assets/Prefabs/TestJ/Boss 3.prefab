@@ -76,6 +76,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad5cdc20272094d47b2df94418c8ac2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hp: 10000
   minDis: 5
   skillDis: 5
 --- !u!114 &2879318904256848092
@@ -94,6 +95,10 @@ MonoBehaviour:
   attack: 0
   missionFailed: 0
   aaInterval: 3
+  floorCastTime: 0
+  pillarCastTime: 0
+  burnCastTime: 0
+  criticalRate: 2
 --- !u!114 &1133452102312212609
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -108,7 +113,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 45
   maxDistance: 3
-  result: 0
+  distance: 0
   bossRotatePivot: {fileID: 8197844007738230669}
 --- !u!1 &3936662669110196443
 GameObject:

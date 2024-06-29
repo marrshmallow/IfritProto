@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 namespace TestJ
@@ -23,11 +24,13 @@ namespace TestJ
         private Boss _boss;
         public static Phase CurrentPhase;
         private Phase _newPhase;
+        public float timeLimit; // TODO: Set to private
 
         private void Start()
         {
             _boss = FindFirstObjectByType<Boss>();
             EventManager.Instance.PhaseSwitch += Test;
+            EventManager.Instance.PhaseSwitch += SetTimer;
         }
 
         private void Update()
@@ -44,22 +47,22 @@ namespace TestJ
                     _newPhase = Phase.Default;
                 }
                     break;
-                case <= 22f:
+                case <= 220f:
                 {
-                    _newPhase = Phase.Final;
+                    _newPhase = GameManager.CheckpointPassed ? Phase.Final : Phase.Default;
                 }
                     break;
-                case <= 45f:
+                case <= 450f:
                 {
                     _newPhase = Phase.CheckPoint;
                 }
                     break;
-                case <= 75f:
+                case <= 750f:
                 {
                     _newPhase = Phase.B;
                 }
                     break;
-                case <= 100f:
+                case <= 1000f:
                 {
                     _newPhase = Phase.A;
                 }
@@ -87,6 +90,27 @@ namespace TestJ
         {
             CurrentPhase = _newPhase;
             //Debug.Log($"Phase switch event invoked!: NOW {CurrentPhase}");
+        }
+
+        private void SetTimer()
+        {
+            StartCoroutine(nameof(StartTimer));
+        }
+        
+        private IEnumerator StartTimer()
+        {
+            yield return new WaitForSeconds(timeLimit);
+            if (!GameManager.CheckpointPassed)
+            {
+                CurrentPhase = Phase.Default;
+            }
+        }
+        
+        private void OnDisable()
+        {
+            _boss = FindFirstObjectByType<Boss>();
+            EventManager.Instance.PhaseSwitch -= Test;
+            EventManager.Instance.PhaseSwitch -= SetTimer;
         }
     }
 }

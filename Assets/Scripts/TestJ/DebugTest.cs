@@ -6,13 +6,18 @@ namespace TestJ
     public class DebugTest : MonoBehaviour
     {
         public TextMeshProUGUI bossHp;
+        public TextMeshProUGUI nailHp;
+        public TextMeshProUGUI timeLimit;
         public TextMeshProUGUI bossState;
         public TextMeshProUGUI phase;
         public TextMeshProUGUI gameState;
         public TextMeshProUGUI distance;
 
         private Boss _boss;
+        private Nail _nail;
         private PlayerDetector _bossSensor;
+        private BattlePhaseChecker phaseChecker;
+        private float time;
         private BattlePhaseChecker.Phase currentPhase;
         private BattleStateChecker.BattleState currentGameState;
         private EEnemyState currentBossState;
@@ -20,13 +25,22 @@ namespace TestJ
 
         private void Start()
         {
+            EventManager.Instance.PhaseSwitch += FindNail;
+            
             _boss = FindFirstObjectByType<Boss>();
             _bossSensor = FindFirstObjectByType<PlayerDetector>();
             _pursuePlayer = FindFirstObjectByType<PursuePlayer>();
+            phaseChecker = FindFirstObjectByType<BattlePhaseChecker>();
         }
 
         private void Update()
         {
+            if (_nail != null)
+            {
+                int j = (int)_nail.hp;
+                nailHp.text = $"Nail HP: {j}";
+            }
+            
             int i = (int)_boss.Hp;
             bossHp.text = $"Boss HP: {i}";
             currentPhase = BattlePhaseChecker.CurrentPhase;
@@ -35,14 +49,26 @@ namespace TestJ
             gameState.text = $"State: {currentGameState}";
             currentBossState = PlayerDetector.BossState;
             bossState.text = $"Boss State: {currentBossState}";
+            timeLimit.text = $"Time Limit: {time}";
         }
 
+        private void FindNail()
+        {
+            if (currentPhase != BattlePhaseChecker.Phase.B) return;
+            _nail = FindAnyObjectByType<Nail>();
+        }
+    
         private void FixedUpdate()
         {
             if (distance)
             {
-                distance.text = $"Distance: {_pursuePlayer.result}";
+                distance.text = $"Distance: {_pursuePlayer.distance}";
             }
+        }
+
+        private void OnDisable()
+        {
+            EventManager.Instance.PhaseSwitch -= FindNail;
         }
     }
 }

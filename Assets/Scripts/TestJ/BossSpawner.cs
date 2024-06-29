@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace TestJ
@@ -62,7 +61,14 @@ namespace TestJ
         private void DestroyChild()
         {
             if (BattlePhaseChecker.CurrentPhase != BattlePhaseChecker.Phase.CheckPoint) return;
-            Destroy(spawnedChild);
+            if (GameManager.CheckpointPassed)
+            {
+                Destroy(spawnedChild);
+            }
+            else
+            {
+                spawnedChild.SetActive(false);
+            }
         }
     }
 }

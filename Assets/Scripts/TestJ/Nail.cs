@@ -1,5 +1,5 @@
-using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace TestJ
 {
@@ -10,6 +10,27 @@ namespace TestJ
     /// </summary>
     public class Nail : MonoBehaviour
     {
-        [SerializeField] private float hp; // 못 체력
+        public float hp; // 못 체력
+
+        private void Update()
+        {
+            if (hp <= 0f) Destroy(gameObject);
+        }
+        
+        private void OnDisable()
+        {
+            if (!GameManager.CheckpointPassed) return;
+            EventManager.Instance.OnCheckpointPassed();
+        }
+
+        public void OnDamage(float damage)
+        {
+            // 코드: Boss.cs 참조
+            hp -= damage;
+            if (hp <= 0f)
+            {
+                hp = 0f;
+            }
+        }
     }
 }

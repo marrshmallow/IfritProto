@@ -27,7 +27,6 @@ using Random = UnityEngine.Random;
  *
  * 코루틴은 게임오브젝트 단위로 관리되므로
  * 여기서 "전부 껐다" 하더라도 다른 오브젝트에서 실행중인 코루틴이 꺼지지는 않는다.
- * TODO: 어쩌면 이 오브젝트에 연결된 다른 스크립트에서 실행중인 코루틴은 꺼질 수도?
  */ 
 
 namespace TestJ
@@ -45,8 +44,6 @@ namespace TestJ
     /// </summary>
     public class Attack : MonoBehaviour
     {
-        private BattlePhaseChecker _phaseChecker;
-        
         private float _damage; // 한 번의 공격량
         private bool _isCriticalHit;
         [SerializeField] private float criticalMultiplier = 1.2f;

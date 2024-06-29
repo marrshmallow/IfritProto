@@ -12,7 +12,7 @@ namespace TestJ
         private PlayerDetector _sensor; // 플레이어 인식하는 코드가 인식한 플레이어의 transform.position 정보를 받아오려고
         [SerializeField] private float moveSpeed = 40f; // 보스의 이동 속도
         [SerializeField] private float maxDistance = 3f; // 보스가 공격할 수 있는 거리
-        public float result;
+        public float distance;
 
         [SerializeField] private GameObject bossRotatePivot; // 프리팹 속 BossTransform을 게임오브젝트로 설정하기
         private Vector3 playerPos; // 플레이어 위치
@@ -33,14 +33,14 @@ namespace TestJ
             if (!_sensor.player) return;
             playerPos = _sensor.player.transform.position;
             float d = Vector3.Distance(playerPos, transform.position);
-            result = Mathf.Sqrt(d);
+            distance = Mathf.Sqrt(d);
         }
         
         private void Move()
         {
             CheckDistance();
             // 플레이어가 자동 공격 범위 밖을 벗어났다면 추격 시작
-            if (!(result > maxDistance)) return;
+            if (!(distance > maxDistance)) return;
             // 위치 설정
             Vector3 target = playerPos;
             Vector3 currentPos = transform.position;

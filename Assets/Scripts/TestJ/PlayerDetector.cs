@@ -49,7 +49,10 @@ namespace TestJ
                 case EEnemyState.Evoked when _boss.Hp > 0f:
                     return;
                 case EEnemyState.Evoked when _boss.Hp <= 0f:
+                {
                     _newState = EEnemyState.Dead;
+                    Debug.Log("?????");
+                }
                     break;
             }
 

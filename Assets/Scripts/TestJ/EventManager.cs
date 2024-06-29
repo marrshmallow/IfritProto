@@ -32,5 +32,12 @@ namespace TestJ
         {
             InitiateBattle?.Invoke();
         }
+
+        public event Action PassCheckpoint;
+
+        public void OnCheckpointPassed()
+        {
+            PassCheckpoint?.Invoke();
+        }
     }
 }

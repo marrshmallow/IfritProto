@@ -29,22 +29,8 @@ namespace TestJ
         private void Start()
         {
             _autoAttackInterval = 3f;
-            Hp = 123f;
-        }
-
-        private void Update()
-        {
-            if (PlayerDetector.BossState != EEnemyState.Evoked) return;
-            TestUpdate();
-        }
-
-        private void TestUpdate()
-        {
-            Hp -= 10f * Time.deltaTime;
-            if (Hp <= 0f)
-            {
-                Hp = 123f;
-            }
+            _hp = 1000f;
+            Hp = _hp;
         }
 
         public void OnDamage(float damage)
