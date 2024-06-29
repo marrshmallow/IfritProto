@@ -106,7 +106,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86a0ce8b493bdb74ab764b66ae2e6c1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 1
+  moveSpeed: 45
   maxDistance: 3
   result: 0
   bossRotatePivot: {fileID: 8197844007738230669}
