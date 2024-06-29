@@ -76,7 +76,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad5cdc20272094d47b2df94418c8ac2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minDis: 3
+  minDis: 5
   skillDis: 5
 --- !u!114 &2879318904256848092
 MonoBehaviour:

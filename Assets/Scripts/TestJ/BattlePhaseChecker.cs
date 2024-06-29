@@ -16,7 +16,7 @@ namespace TestJ
             A = 100,
             B = 200,
             CheckPoint = 300,
-            //Transition = 400, // Boss is Invincible, All attacks are canceled
+            Transition = 400, // Boss is Invincible, All attacks are canceled
             Final = 500
         }
         

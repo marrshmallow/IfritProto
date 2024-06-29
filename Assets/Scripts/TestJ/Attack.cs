@@ -39,16 +39,14 @@ namespace TestJ
     /// 발동되면 모든 실행중이던 동작 정지
     /// 스킬 발동 끝에 다시 AA 반복 시작
     ///
-    /// 보스 스킬은 페이즈별로 패턴이 다르다
-    /// >> 스킬 메소드 안에서 페이즈를 체크하고
-    /// >> 페이즈별로 실행 구현... NO
-    ///
     /// 페이즈 기본 템플릿
     /// >> 특징이라고 할 수 있는 공격을 가장 먼저 발동
     /// >> 그 다음에 자동 공격과 스킬 공격을 반복
     /// </summary>
     public class Attack : MonoBehaviour
     {
+        private BattlePhaseChecker _phaseChecker;
+        
         private float _damage; // 한 번의 공격량
         private bool _isCriticalHit;
         [SerializeField] private float criticalMultiplier = 1.2f;
@@ -57,28 +55,19 @@ namespace TestJ
         
         private float _accTime; // 누적 시간
         [SerializeField] private float aaInterval = 3f; // 자동공격 간격
-        private float _transitionPadding;
+        [SerializeField] private float floorCastTime;
+        [SerializeField] private float pillarCastTime;
+        [SerializeField] private float burnCastTime;
+        [SerializeField] private float criticalRate = 2f;
 
-        private BattleStateChecker.BattleState _battleState;
-        
         private void Start()
         {
-            /*
-             * Needs to wait until PlayerDetector.distance is under maxDistance
-             */
             EventManager.Instance.InitiateBattle += StartAttack;
         }
         
         private void Update()
         {
-            // 타이머: 시간 누적
             _accTime += Time.deltaTime;
-            //AutoAttack();
-        }
-
-        private void OnDisable()
-        {
-            EventManager.Instance.InitiateBattle -= StartAttack;
         }
 
         /**
@@ -86,87 +75,15 @@ namespace TestJ
          */
         private void HitHard()
         {
-            _isCriticalHit = Random.Range(0f, 10f) < 3f;
-            /*if (Random.Range(0f, 10f) < 3f) // 동일한 코드
-            {
-                _isCriticalHit = true;
-            }
-            else
-            {
-                _isCriticalHit = false;
-            }*/
+            _isCriticalHit = Random.Range(0f, 10f) < criticalRate;
         }
-
-        /*// 페이즈 1일 때 보스의 스킬 룰렛 안
-        private void SelectSkill1()
-        {
-            if (Random.Range(0f, 10f) <= nFlame)
-            {
-                _useFlame = true;
-                Debug.Log("보스가 화염을 뿜었다");
-            }
-        }
-
-        // 페이즈 2일 때
-        private void SelectSkill2()
-        {
-            if (Random.Range(0f, 10f) <= nFloor)
-            {
-                _useFloor = true;
-                Debug.Log("보스가 장판을 폭발시켰다");
-            }
-            else
-            {
-                _useFlame = true;
-                Debug.Log("보스가 화염을 뿜었다");
-            }
-        }
-
-        private void SelectSkill3()
-        {
-            if (Random.Range(0f, 10f) <= nFloor)
-            {
-                _useFloor = true;
-                Debug.Log("보스가 장판을 폭발시켰다");
-            }
-            else if (Random.Range(0f, 10f) > nFloor && Random.Range(0f, 10f) <= nPillar)
-            {
-                _usePillar = true;
-                Debug.Log("보스가 불기둥을 폭발시켰다");
-            }
-            else
-            {
-                _useFlame = true;
-                Debug.Log("보스가 화염을 뿜었다");
-            }
-        }*/
-        
-        /*private IEnumerator AutoAttack()
-        {
-            // TODO: 여기서 문제는 Start에서 코루틴을 실행시켜 줄 때 초기값이 !attack인 경우에도 최초 한 번은 실행된다는 점
-            _damage = Random.Range(50, 60);
-            // if (_isCriticalHit)
-            //     _damage = _damage * _criticalMultiplier;
-            Debug.Log("보스가 플레이어에게 " + _damage + "만큼 피해!");
-            yield return new WaitForSeconds(3f);
-            StartCoroutine(AutoAttack());
-        }*/
-
-        /*/*
-         * 기본 목표: 보스가 스킬을 쓴다
-         * 다음 목표: 여러가지 스킬 중에서 랜덤으로 선택해 쓴다
-         * 궁극적인 목표: 순차적으로 스킬 풀에 스킬이 하나씩 추가됨
-         #1#
-        private void UseAttackSkill()
-        {
-        }*/
 
         private void StartAttack()
         {
-            StartCoroutine(nameof(AAtest));
+            StartCoroutine(nameof(AutoAttack));
         }
         
-        private IEnumerator AAtest()
+        private IEnumerator AutoAttack()
         {
             float d = Random.Range(50f, 60f); // 공격량 결정
             HitHard(); // 치명타 룰렛 실행
@@ -179,61 +96,89 @@ namespace TestJ
             _damage = Mathf.FloorToInt(d); // 최종 공격량 확정
             Debug.Log($"보스가 플레이어에게 {_damage}만큼 피해!");
             yield return new WaitForSeconds(3f);
-            StartCoroutine(nameof(AAtest));
+            StartCoroutine(nameof(AutoAttack));
         }
         
-        private void AutoAttack()
+        private IEnumerator BreatheFire()
         {
-            if (_accTime >= aaInterval)
+            StopCoroutine(nameof(AutoAttack));
+            float d = Random.Range(100f, 140f);
+            HitHard(); // 치명타 룰렛 실행
+            if (_isCriticalHit)
             {
-                _accTime = 0f;
-                float d = Random.Range(50f, 60f); // 공격량 결정
-                HitHard(); // 치명타 룰렛 실행
-                if (_isCriticalHit)
-                {
-                    d *= criticalMultiplier;
-                    Debug.Log($"치명타!");
-                }
-
-                _damage = Mathf.FloorToInt(d); // 최종 공격량 확정
-                Debug.Log($"보스가 플레이어에게 {_damage}만큼 피해!");
+                d *= criticalMultiplier;
             }
-        }
-        
-        private void SkillA()
-        {
-            _damage = Random.Range(100f, 140f);
-            // if (_isCriticalHit)
-            //     _damage = _damage * _criticalMultiplier;
+            
+            _damage = Mathf.FloorToInt(d); // 최종 공격량 확정
             Debug.Log($"보스가 45도 부채꼴 화염 공격. 플레이어에게 {_damage} 만큼 피해!");
+            
+            yield return new WaitForSeconds(aaInterval);
+            StartCoroutine(nameof(AutoAttack)); // Start, but after the animation is over and boss is close enough
         }
-        
-        private void SkillB()
+
+        private IEnumerator KnockBack()
         {
-            _damage = Random.Range(30f, 40f);
-            // if (_isCriticalHit)
-            //     _damage = _damage * _criticalMultiplier;
+            StopCoroutine(nameof(AutoAttack));
+            float d = Random.Range(30f, 40f);
+            HitHard(); // 치명타 룰렛 실행
+            if (_isCriticalHit)
+            {
+                d *= criticalMultiplier;
+                Debug.Log($"치명타!");
+            }
+            
+            _damage = Mathf.FloorToInt(d); // 최종 공격량 확정
             Debug.Log($"보스가 밀어내기 공격. 플레이어에게 {_damage} 만큼 피해!");
+            
+            yield return new WaitForSeconds(aaInterval);
+            StartCoroutine(nameof(AutoAttack)); // Start, but after the animation is over and boss is close enough
         }
-        
-        private void SkillC()
+
+        private IEnumerator DetonateFloor()
         {
-            _damage = Random.Range(50f, 60f);
-            // if (_isCriticalHit)
-            //     _damage = _damage * _criticalMultiplier;
+            StopCoroutine(nameof(AutoAttack));
+            
+            float d = Random.Range(50f, 60f);
+            HitHard(); // 치명타 룰렛 실행
+            if (_isCriticalHit)
+            {
+                d *= criticalMultiplier;
+                Debug.Log($"치명타!");
+            }
+            
+            _damage = Mathf.FloorToInt(d); // 최종 공격량 확정
+            yield return new WaitForSeconds(floorCastTime);
             Debug.Log($"보스의 장판 폭발 공격. 플레이어에게 {_damage} 만큼 피해!");
+            
+            StartCoroutine(nameof(AutoAttack));
         }
-        
-        private void SkillD()
+
+        private IEnumerator ShootFirePillar()
         {
-            _damage = Random.Range(80f, 90f);
-            // if (_isCriticalHit)
-            //     _damage = _damage * _criticalMultiplier;
+            StopCoroutine(nameof(AutoAttack));
+
+            float d = Random.Range(80f, 90f);
+            HitHard(); // 치명타 룰렛 실행
+            if (_isCriticalHit)
+            {
+                d *= criticalMultiplier;
+                Debug.Log($"치명타!");
+            }
+            
+            _damage = Mathf.FloorToInt(d); // 최종 공격량 확정
             Debug.Log($"보스가 불기둥 장판 폭발 공격. 플레이어에게 {_damage} 만큼 피해!");
+            StartCoroutine(nameof(AutoAttack));
+            yield break;
         }
-        
-        private void SkillE()
+
+        private void BurnEverything()
         {
+            StopAllCoroutines();
+
+            // Nail, upon destruction, sends CheckPointPassed event
+            // GameManager is subscribed to the event and will trigger its method to set static bool "CheckPointPassed"
+            // If CheckPointPassed is true, player will take some damage and Final phase will start
+            // If CheckPointPassed is false, player will die no matter what and stage will be reset
             if (missionFailed)
             {
                 // 플레이어의 HP 값만큼 공격이 들어감
@@ -241,84 +186,55 @@ namespace TestJ
             }
             else
             {
-                _damage = Random.Range(180f, 200f);
+                float d = Random.Range(180f, 200f);
                 //if (_isCriticalHit) _damage = _damage * _criticalMultiplier;
                 Debug.Log($"미션 성공. 플레이어에게 {_damage} 만큼 피해! 다음 페이즈로 넘어갑니다.");
             }
         }
-
-        private IEnumerator SwitchPattern()
+        
+        private void RunSkillRoulette()
         {
-            // Check current phase from PhaseChecker
+            // A: Flame
+            // B: Knock-back
+            // C: Floor
+            // D: Pillar
+            if (_accTime < 10f) return;
+            _accTime = 0f;
+            
             switch (BattlePhaseChecker.CurrentPhase)
             {
-                case BattlePhaseChecker.Phase.Default:
-                    break;
                 case BattlePhaseChecker.Phase.A:
                 {
-                    //StartCoroutine(nameof(PhaseA));
+                    // A, B
                 }
                     break;
                 case BattlePhaseChecker.Phase.B:
                 {
-                    //StartCoroutine(nameof(PhaseB));
+                    // A, B, C
                 }
                     break;
                 case BattlePhaseChecker.Phase.CheckPoint:
                 {
-                    //StartCoroutine(nameof(CheckPoint));
+                    // A, B, C
+                }
+                    break;
+                case BattlePhaseChecker.Phase.Transition:
+                {
+                    // Nothing
+                    // 전멸기
                 }
                     break;
                 case BattlePhaseChecker.Phase.Final:
                 {
-                    //StartCoroutine(nameof(FinalPhase));
+                    // A, B, C, D
                 }
                     break;
             }
-                
-            //
-            yield return null;
-        }
-
-        private IEnumerator PhaseA()
-        {
-            float d = Random.Range(50f, 60f);
-            HitHard();
-            if (_isCriticalHit)
-            {
-                d *= criticalMultiplier;
-                Debug.Log("치명타!");
-            }
-
-            _damage = Mathf.FloorToInt(d); // 최종 공격량 확정
-            Debug.Log($"보스가 플레이어에게 {_damage}만큼 피해!");
-            yield return new WaitForSeconds(aaInterval);
         }
         
-        private IEnumerator FinalPhase()
+        private void OnDisable()
         {
-            // 전멸기 연출하는 시퀀스
-            // 조건 체크 후 분기
-            yield return new WaitForSeconds(_transitionPadding);
-        }
-        
-        /**
-        * 다 치우고 자동 공격 1, 2, 3번 중 랜덤 발동하고 스킬 쓰기
-        */
-        private IEnumerator UseSkill(int phaseIndex)
-        {
-            switch (phaseIndex)
-            {
-                case 0:
-                    break;
-                case 1:
-                    break;
-                case 2:
-                    break;
-                case 3:
-                    break;
-            }
-            yield break;
+            EventManager.Instance.InitiateBattle -= StartAttack;
         }
     }
 }
