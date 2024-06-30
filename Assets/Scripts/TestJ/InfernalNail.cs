@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace TestJ
 {
@@ -8,9 +7,9 @@ namespace TestJ
     /// 관통 가능
     /// TODO: 플레이어가 스스로의 자동 공격 범위 안에 들어와야  
     /// </summary>
-    public class Nail : MonoBehaviour
+    public class InfernalNail : MonoBehaviour
     {
-        public float hp; // 못 체력
+        public float hp = 1750f; // 못 체력
 
         private void Update()
         {

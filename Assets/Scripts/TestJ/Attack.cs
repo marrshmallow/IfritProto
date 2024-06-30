@@ -96,7 +96,7 @@ namespace TestJ
             StartCoroutine(nameof(AutoAttack));
         }
         
-        private IEnumerator BreatheFire()
+        private IEnumerator Incinerate()
         {
             StopCoroutine(nameof(AutoAttack));
             float d = Random.Range(100f, 140f);
@@ -113,7 +113,7 @@ namespace TestJ
             StartCoroutine(nameof(AutoAttack)); // Start, but after the animation is over and boss is close enough
         }
 
-        private IEnumerator KnockBack()
+        private IEnumerator VulcanBurst()
         {
             StopCoroutine(nameof(AutoAttack));
             float d = Random.Range(30f, 40f);
@@ -131,7 +131,7 @@ namespace TestJ
             StartCoroutine(nameof(AutoAttack)); // Start, but after the animation is over and boss is close enough
         }
 
-        private IEnumerator DetonateFloor()
+        private IEnumerator Eruption()
         {
             StopCoroutine(nameof(AutoAttack));
             
@@ -150,7 +150,7 @@ namespace TestJ
             StartCoroutine(nameof(AutoAttack));
         }
 
-        private IEnumerator ShootFirePillar()
+        private IEnumerator RadiantPlume()
         {
             StopCoroutine(nameof(AutoAttack));
 
@@ -168,7 +168,7 @@ namespace TestJ
             yield break;
         }
 
-        private void BurnEverything()
+        private void Hellfire()
         {
             StopAllCoroutines();
 

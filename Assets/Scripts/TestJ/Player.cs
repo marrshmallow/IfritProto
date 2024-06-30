@@ -15,12 +15,12 @@ namespace TestJ
         private float _criticalMultiplier = 2.14f;
 
         private Boss _boss;
-        private Nail _nail;
+        private InfernalNail infernalNail;
 
         private void Start()
         {
             _boss = FindAnyObjectByType<Boss>();
-            _nail = FindAnyObjectByType<Nail>();
+            infernalNail = FindAnyObjectByType<InfernalNail>();
         }
 
         private void Update()
@@ -43,8 +43,8 @@ namespace TestJ
 
         private IEnumerator AutoAttackNail()
         {
-            _nail = FindAnyObjectByType<Nail>();
-            if (_nail == null) yield break;
+            infernalNail = FindAnyObjectByType<InfernalNail>();
+            if (infernalNail == null) yield break;
             
             _damageinflicted = Random.Range(20f, 30f);
             HitHard();
@@ -55,7 +55,7 @@ namespace TestJ
             }
 
             damageInflicted = Mathf.FloorToInt(_damageinflicted);
-            _nail.OnDamage(damageInflicted);
+            infernalNail.OnDamage(damageInflicted);
             yield return new WaitForSeconds(2f);
             StartCoroutine(nameof(AutoAttackNail));
         }

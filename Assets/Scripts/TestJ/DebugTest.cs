@@ -14,7 +14,7 @@ namespace TestJ
         public TextMeshProUGUI distance;
 
         private Boss _boss;
-        private Nail _nail;
+        private InfernalNail infernalNail;
         private PlayerDetector _bossSensor;
         private BattlePhaseChecker phaseChecker;
         private float time;
@@ -35,9 +35,9 @@ namespace TestJ
 
         private void Update()
         {
-            if (_nail != null)
+            if (infernalNail != null)
             {
-                int j = (int)_nail.hp;
+                int j = (int)infernalNail.hp;
                 nailHp.text = $"Nail HP: {j}";
             }
             
@@ -55,7 +55,7 @@ namespace TestJ
         private void FindNail()
         {
             if (currentPhase != BattlePhaseChecker.Phase.B) return;
-            _nail = FindAnyObjectByType<Nail>();
+            infernalNail = FindAnyObjectByType<InfernalNail>();
         }
     
         private void FixedUpdate()

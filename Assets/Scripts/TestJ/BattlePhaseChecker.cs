@@ -22,6 +22,7 @@ namespace TestJ
         }
         
         private Boss _boss;
+        private const float MaxHp = 13900f;
         public static Phase CurrentPhase;
         private Phase _newPhase;
         public float timeLimit; // TODO: Set to private
@@ -47,22 +48,22 @@ namespace TestJ
                     _newPhase = Phase.Default;
                 }
                     break;
-                case <= 220f:
+                case <= MaxHp * 0.25f:
                 {
                     _newPhase = GameManager.CheckpointPassed ? Phase.Final : Phase.Default;
                 }
                     break;
-                case <= 450f:
+                case < MaxHp * 0.51f:
                 {
                     _newPhase = Phase.CheckPoint;
                 }
                     break;
-                case <= 750f:
+                case < MaxHp * 0.76f:
                 {
                     _newPhase = Phase.B;
                 }
                     break;
-                case <= 1000f:
+                case <= MaxHp:
                 {
                     _newPhase = Phase.A;
                 }

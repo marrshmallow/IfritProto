@@ -4,7 +4,7 @@ namespace TestJ
 {
     public class Boss : MonoBehaviour, IDamageable
     {
-        private float _hp;
+        private float _hp = 13900f;
 
         public float Hp
         {
@@ -29,7 +29,7 @@ namespace TestJ
         private void Start()
         {
             _autoAttackInterval = 3f;
-            _hp = 1000f;
+            _hp = 13900f;
             Hp = _hp;
         }
 
