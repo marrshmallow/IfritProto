@@ -87,11 +87,10 @@ namespace TestJ
             if (_isCriticalHit)
             {
                 d *= criticalMultiplier;
-                Debug.Log($"치명타!");
             }
             
             _damage = Mathf.FloorToInt(d); // 최종 공격량 확정
-            Debug.Log($"보스가 플레이어에게 {_damage}만큼 피해!");
+            //Debug.Log($"보스가 플레이어에게 {_damage}만큼 피해!");
             yield return new WaitForSeconds(3f);
             StartCoroutine(nameof(AutoAttack));
         }
@@ -121,7 +120,6 @@ namespace TestJ
             if (_isCriticalHit)
             {
                 d *= criticalMultiplier;
-                Debug.Log($"치명타!");
             }
             
             _damage = Mathf.FloorToInt(d); // 최종 공격량 확정
@@ -140,7 +138,6 @@ namespace TestJ
             if (_isCriticalHit)
             {
                 d *= criticalMultiplier;
-                Debug.Log($"치명타!");
             }
             
             _damage = Mathf.FloorToInt(d); // 최종 공격량 확정
@@ -159,7 +156,6 @@ namespace TestJ
             if (_isCriticalHit)
             {
                 d *= criticalMultiplier;
-                Debug.Log($"치명타!");
             }
             
             _damage = Mathf.FloorToInt(d); // 최종 공격량 확정
@@ -195,7 +191,10 @@ namespace TestJ
             // B: Knock-back
             // C: Floor
             // D: Pillar
-            if (_accTime < 10f) return;
+            if (_accTime < 10f)
+            {
+                return; // 안좋음. 엔터 (놓치고 지나갈 수 있어서)
+            }
             _accTime = 0f;
             
             switch (BattlePhaseChecker.CurrentPhase)

@@ -14,21 +14,21 @@ namespace TestJ
         public TextMeshProUGUI distance;
 
         private Boss _boss;
-        private InfernalNail infernalNail;
-        private PlayerDetector _bossSensor;
-        private BattlePhaseChecker phaseChecker;
-        private float time;
-        private BattlePhaseChecker.Phase currentPhase;
-        private BattleStateChecker.BattleState currentGameState;
-        private EEnemyState currentBossState;
+        public InfernalNail infernalNail;
+        public BattlePhaseChecker phaseChecker;
+        public float time;
+        public BattlePhaseChecker.Phase currentPhase;
+        public BattleStateChecker.BattleState currentGameState;
+        public EEnemyState currentBossState;
         private PursuePlayer _pursuePlayer;
+
+        public int i;
 
         private void Start()
         {
             EventManager.Instance.PhaseSwitch += FindNail;
             
             _boss = FindFirstObjectByType<Boss>();
-            _bossSensor = FindFirstObjectByType<PlayerDetector>();
             _pursuePlayer = FindFirstObjectByType<PursuePlayer>();
             phaseChecker = FindFirstObjectByType<BattlePhaseChecker>();
         }
@@ -39,9 +39,11 @@ namespace TestJ
             {
                 int j = (int)infernalNail.hp;
                 nailHp.text = $"Nail HP: {j}";
+                time = BattlePhaseChecker.timeLimit;
+                timeLimit.text = $"Time Limit: {time}";
             }
             
-            int i = (int)_boss.Hp;
+            i = (int)_boss.Hp;
             bossHp.text = $"Boss HP: {i}";
             currentPhase = BattlePhaseChecker.CurrentPhase;
             phase.text = $"Phase: {currentPhase}";
@@ -49,11 +51,11 @@ namespace TestJ
             gameState.text = $"State: {currentGameState}";
             currentBossState = PlayerDetector.BossState;
             bossState.text = $"Boss State: {currentBossState}";
-            timeLimit.text = $"Time Limit: {time}";
         }
 
         private void FindNail()
         {
+            if (infernalNail == null) return;
             if (currentPhase != BattlePhaseChecker.Phase.B) return;
             infernalNail = FindAnyObjectByType<InfernalNail>();
         }

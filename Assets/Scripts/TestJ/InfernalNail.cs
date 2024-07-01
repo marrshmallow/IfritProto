@@ -10,7 +10,14 @@ namespace TestJ
     public class InfernalNail : MonoBehaviour
     {
         public float hp = 1750f; // 못 체력
+        public static bool NailSpawned;
 
+        private void Start()
+        {
+            NailSpawned = true;
+            Debug.Log("Inferno Nail spawned!");
+        }
+        
         private void Update()
         {
             if (hp <= 0f) Destroy(gameObject);
@@ -18,8 +25,11 @@ namespace TestJ
         
         private void OnDisable()
         {
+            NailSpawned = false;
+            Debug.Log("Inferno Nail destroyed!");
             if (!GameManager.CheckpointPassed) return;
             EventManager.Instance.OnCheckpointPassed();
+            EventManager.Instance.OnPhaseSwitched();
         }
 
         public void OnDamage(float damage)

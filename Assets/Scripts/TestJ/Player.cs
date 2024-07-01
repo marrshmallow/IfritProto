@@ -51,7 +51,6 @@ namespace TestJ
             if (_isCriticalHit)
             {
                 _damageinflicted *= _criticalMultiplier;
-                Debug.Log("플레이어의 치명타");
             }
 
             damageInflicted = Mathf.FloorToInt(_damageinflicted);
@@ -67,7 +66,6 @@ namespace TestJ
             if (_isCriticalHit)
             {
                 _damageinflicted *= _criticalMultiplier;
-                Debug.Log("플레이어의 치명타");
             }
 
             damageInflicted = Mathf.FloorToInt(_damageinflicted);

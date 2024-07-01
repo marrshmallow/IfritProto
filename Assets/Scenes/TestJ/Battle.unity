@@ -963,6 +963,13 @@ MonoBehaviour:
   phase: {fileID: 1741431514}
   gameState: {fileID: 216592}
   distance: {fileID: 1556837333}
+  infernalNail: {fileID: 0}
+  phaseChecker: {fileID: 0}
+  time: 0
+  currentPhase: 0
+  currentGameState: 0
+  currentBossState: 0
+  i: 0
 --- !u!1 &912219955
 GameObject:
   m_ObjectHideFlags: 0
@@ -1415,7 +1422,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1109b089d2d038c4797bd580ecbacbfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeLimit: 10
+  debugTest: {fileID: 872064240}
 --- !u!114 &1746514284
 MonoBehaviour:
   m_ObjectHideFlags: 0
