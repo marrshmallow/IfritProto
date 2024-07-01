@@ -54,22 +54,25 @@ namespace TestJ
          */
         private void SpawnChild()
         {
-            if (BattlePhaseChecker.CurrentPhase != BattlePhaseChecker.Phase.B) 
+            if (BattlePhaseChecker.CurrentPhase != BattlePhaseChecker.Phase.B)
+            {
                 return;
+            }
             spawnedChild = Instantiate(childPrefab, childPos, Quaternion.identity);
         }
 
         private void DestroyChild()
         {
-            if (BattlePhaseChecker.CurrentPhase != BattlePhaseChecker.Phase.CheckPoint) 
-                return;
-            if (GameManager.CheckpointPassed)
+            if (BattlePhaseChecker.CurrentPhase == BattlePhaseChecker.Phase.CheckPoint)
             {
-                Destroy(spawnedChild);
-            }
-            else
-            {
-                spawnedChild.SetActive(false);
+                if (GameManager.CheckpointPassed)
+                {
+                    Destroy(spawnedChild);
+                }
+                else
+                {
+                    spawnedChild.GetComponentInChildren<MeshRenderer>().enabled = false;
+                }
             }
         }
     }

@@ -20,6 +20,7 @@ namespace TestJ
         private void Start()
         {
             _sensor = transform.GetChild(1).GetComponent<PlayerDetector>();
+            EventManager.Instance.GameEnd += StopMovement;
         }
 
         private void FixedUpdate()
@@ -54,6 +55,16 @@ namespace TestJ
             {
                 transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.fixedDeltaTime * moveSpeed * 0.01f);
             }
+        }
+
+        private void StopMovement()
+        {
+            enabled = false;
+        }
+
+        private void OnDisable()
+        {
+            EventManager.Instance.GameEnd -= StopMovement;
         }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace TestJ
@@ -12,24 +13,36 @@ namespace TestJ
         public float hp = 1750f; // 못 체력
         public static bool NailSpawned;
 
+        private void Awake()
+        {
+            EventManager.Instance.NailSpawn += Spawn;
+        }
+
         private void Start()
         {
-            NailSpawned = true;
-            Debug.Log("Inferno Nail spawned!");
+            EventManager.Instance?.OnNailSpawned();
         }
         
         private void Update()
         {
-            if (hp <= 0f) Destroy(gameObject);
+            if (hp <= 0f)
+            {
+                Destroy(gameObject);
+            }
+        }
+
+        private void Spawn()
+        {
+            NailSpawned = true;
+            Debug.Log("Infernal Nail spawned!");
         }
         
         private void OnDisable()
         {
             NailSpawned = false;
-            Debug.Log("Inferno Nail destroyed!");
-            if (!GameManager.CheckpointPassed) return;
-            EventManager.Instance.OnCheckpointPassed();
-            EventManager.Instance.OnPhaseSwitched();
+            EventManager.Instance?.OnCheckpointPassed();
+            EventManager.Instance?.OnPhaseSwitched();
+            Debug.Log("Infernal Nail destroyed!");
         }
 
         public void OnDamage(float damage)

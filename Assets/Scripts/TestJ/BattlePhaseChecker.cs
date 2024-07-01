@@ -39,14 +39,13 @@ namespace TestJ
         {
             _boss = FindFirstObjectByType<Boss>();
             
-            EventManager.Instance.PhaseSwitch += Test;
+            EventManager.Instance.PhaseSwitch += ConfirmPhase;
+            EventManager.Instance.PassCheckpoint += ConfirmPhase;
             EventManager.Instance.PhaseSwitch += SetTimer;
-            Debug.Log($"Start. Now @ {CurrentPhase} / Boss HP: {debugTest.i} / Battle State: {debugTest.currentGameState} / Boss State: {debugTest.currentBossState} / Nail survived: {debugTest.infernalNail}");
         }
 
         private void Update()
         {
-            Debug.Log($"Current phase: {CurrentPhase} / New phase: {_newPhase}");
             SwitchPhase();
         }
 
@@ -54,6 +53,8 @@ namespace TestJ
         {
             switch (_boss.Hp)
             {
+                // 여러 개의 케이스를 묶어서 기능하게 하려면 break를 뒤로 미뤄주면 된다.
+                // case는 break가 있는 곳까지 계속 실행하기 때문
                 case <= 0f:
                 {
                     _newPhase = Phase.GameClear;
@@ -61,12 +62,19 @@ namespace TestJ
                     break;
                 case < MaxHp * ThresholdFinal:
                 {
-                    _newPhase = GameManager.CheckpointPassed ? Phase.Transition : Phase.GameOver;
+                    if (GameManager.CheckpointPassed)
+                    {
+                        _newPhase = Phase.Final;
+                    }
+                    else
+                    {
+                        _newPhase = Phase.GameOver;
+                    }
                 }
                     break;
                 case < MaxHp * ThresholdCheckpoint:
                 {
-                    _newPhase = Phase.CheckPoint;
+                    _newPhase = GameManager.CheckpointPassed ? Phase.Transition : Phase.CheckPoint;
                 }
                     break;
                 case < MaxHp * ThresholdB:
@@ -76,17 +84,13 @@ namespace TestJ
                     break;
                 case <= MaxHp:
                 {
-                    if (BattleStateChecker.CurrentState == BattleStateChecker.BattleState.Default)
+                    if (BattleStateChecker.CurrentState == BattleStateChecker.BattleState.Peace)
                     {
                         return;
                     }
                     _newPhase = Phase.A;
                 }
                     break;
-                default:
-                {
-                    return;
-                }
             }
             
             // 매 프레임마다 실행된다 (이 사이에 뭔가 값을 주면 평생 고정)
@@ -100,15 +104,19 @@ namespace TestJ
             // Invoke OnSwitchedPhase event (Listener: Boss)
             // TODO: Boss will change Attack Pattern when OnSwitchedPhase event is invoked
             // 1. Event is invoked
-            EventManager.Instance.OnPhaseSwitched(); // OK
-            Debug.Log($"OnPhaseSwitched: now @ {CurrentPhase} / Boss HP: {debugTest.i} / Battle State: {debugTest.currentGameState} / Boss State: {debugTest.currentBossState} / Nail survived: {debugTest.infernalNail}");
+            EventManager.Instance?.OnPhaseSwitched(); // OK
+            Debug.Log($"OnPhaseSwitched: now @ {CurrentPhase} / Boss HP: {debugTest.i} / Battle State: {debugTest.currentGameState} / Boss State: {debugTest.currentBossState}");
             // 지금 이 상태에서 아무것도 구독된 메소드가 없어서 null이라고 뜰 것
             // 2. PhaseChecker emits
         }
 
-        private void Test()
+        private void ConfirmPhase()
         {
             CurrentPhase = _newPhase;
+            if (CurrentPhase is Phase.GameClear or Phase.GameOver)
+            {
+                EventManager.Instance?.OnGameEnded();
+            }
         }
 
         private void SetTimer()
@@ -122,20 +130,14 @@ namespace TestJ
         private IEnumerator StartTimer()
         {
             yield return new WaitForSeconds(timeLimit);
-            if (GameManager.CheckpointPassed)
-            {
-                _newPhase = Phase.Transition;
-            }
-            else
-            {
-                _newPhase = Phase.GameOver;
-            }
+            _newPhase = GameManager.CheckpointPassed ? Phase.Transition : Phase.GameOver;
         }
         
         private void OnDisable()
         {
             _boss = FindFirstObjectByType<Boss>();
-            EventManager.Instance.PhaseSwitch -= Test;
+            EventManager.Instance.PhaseSwitch -= ConfirmPhase;
+            EventManager.Instance.PassCheckpoint -= ConfirmPhase;
             EventManager.Instance.PhaseSwitch -= SetTimer;
         }
     }

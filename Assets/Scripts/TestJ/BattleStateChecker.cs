@@ -2,26 +2,23 @@ using UnityEngine;
 
 namespace TestJ
 {
-    // TODO: 조건문 다시 확인 (제대로 전환이 안되고 있음)
     public class BattleStateChecker : MonoBehaviour
     {
         public enum BattleState
         {
-            Default,
+            Peace,
             Battle
         }
 
         public static BattleState CurrentState;
         private BattleState _newState;
         private float _playerHp; // 플레이어 쪽에서 불러오기
-        private Boss _boss;
 
         private void Start()
         {
-            _boss = FindFirstObjectByType<Boss>();
             _playerHp = 100f;
             //_player = FindFirstObjectByType<Player>();
-            EventManager.Instance.BattleStateChange += UpdateState;
+            EventManager.Instance.BattleStateChange += ConfirmState;
         }
 
         private void Update()
@@ -36,29 +33,31 @@ namespace TestJ
 
         private void ChangeState()
         {
-            if (_playerHp <= 0f || PlayerDetector.BossState == EEnemyState.Dead)
+            if (_playerHp <= 0f ||
+                PlayerDetector.BossState == EEnemyState.Dead ||
+                PlayerDetector.BossState == EEnemyState.Idle)
             {
-                _newState = BattleState.Default;
+                _newState = BattleState.Peace;
             }
             else if (PlayerDetector.BossState == EEnemyState.Evoked)
             {
                 _newState = BattleState.Battle;
             }
-            else
-            {
-                _newState = BattleState.Default;
-            }
-
-            if (CurrentState == _newState) return;
+            
             if (CurrentState != _newState)
             {
-                EventManager.Instance.OnBattleStateChanged();
+                EventManager.Instance?.OnBattleStateChanged();
             }
         }
 
-        private void UpdateState()
+        private void ConfirmState()
         {
             CurrentState = _newState;
+        }
+
+        private void OnDisable()
+        {
+            EventManager.Instance.BattleStateChange -= ConfirmState;
         }
     }
 }

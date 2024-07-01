@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace TestJ
 {
@@ -8,6 +10,13 @@ namespace TestJ
     /// </summary>
     public class Player : MonoBehaviour
     {
+        private enum PlayerState
+        {
+            Idle,
+            Battle,
+            Dead
+        }
+        
         [SerializeField] private float hp = 500f;
         private float _damageinflicted;
         public float damageInflicted; // 보스가 최종적으로 건네 받을 피해량
@@ -21,6 +30,7 @@ namespace TestJ
         {
             _boss = FindAnyObjectByType<Boss>();
             infernalNail = FindAnyObjectByType<InfernalNail>();
+            EventManager.Instance.GameEnd += StopAllAttacks;
         }
 
         private void Update()
@@ -39,44 +49,64 @@ namespace TestJ
             {
                 StopAllCoroutines();
             }
+
+            if (hp <= 0f)
+            {
+                // 보스한테 한 것과 같이 해야
+            }
         }
 
         private IEnumerator AutoAttackNail()
         {
-            infernalNail = FindAnyObjectByType<InfernalNail>();
-            if (infernalNail == null) yield break;
-            
-            _damageinflicted = Random.Range(20f, 30f);
-            HitHard();
-            if (_isCriticalHit)
+            while (true)
             {
-                _damageinflicted *= _criticalMultiplier;
-            }
+                infernalNail = FindAnyObjectByType<InfernalNail>();
+                if (infernalNail == null) yield break;
+            
+                _damageinflicted = Random.Range(20f, 30f);
+                HitHard();
+                if (_isCriticalHit)
+                {
+                    _damageinflicted *= _criticalMultiplier;
+                }
 
-            damageInflicted = Mathf.FloorToInt(_damageinflicted);
-            infernalNail.OnDamage(damageInflicted);
-            yield return new WaitForSeconds(2f);
-            StartCoroutine(nameof(AutoAttackNail));
+                damageInflicted = Mathf.FloorToInt(_damageinflicted);
+                infernalNail.OnDamage(damageInflicted);
+                Debug.Log($"Player attacks the nail");
+                yield return new WaitForSeconds(2f);
+            }
         }
 
         public IEnumerator AutoAttack()
         {
-            _damageinflicted = Random.Range(20f, 30f);
-            HitHard();
-            if (_isCriticalHit)
+            while (true)
             {
-                _damageinflicted *= _criticalMultiplier;
-            }
+                _damageinflicted = Random.Range(20f, 30f);
+                HitHard();
+                if (_isCriticalHit)
+                {
+                    _damageinflicted *= _criticalMultiplier;
+                }
 
-            damageInflicted = Mathf.FloorToInt(_damageinflicted);
-            _boss.OnDamage(damageInflicted);
-            yield return new WaitForSeconds(2f);
-            StartCoroutine(nameof(AutoAttack));
+                damageInflicted = Mathf.FloorToInt(_damageinflicted);
+                _boss.OnDamage(damageInflicted);
+                yield return new WaitForSeconds(2f);
+            }
         }
 
         private void HitHard()
         {
             _isCriticalHit = Random.Range(0f, 10f) < 3f;
+        }
+
+        private void StopAllAttacks()
+        {
+            StopAllCoroutines();
+        }
+
+        private void OnDisable()
+        {
+            EventManager.Instance.GameEnd -= StopAllAttacks;
         }
     }
 }

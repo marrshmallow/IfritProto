@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace TestJ
@@ -9,15 +10,19 @@ namespace TestJ
     {
         public float moveSpeed = 50f;
         private Transform _t;
-        
-        private void OnEnable()
+
+        private void Start()
         {
+            EventManager.Instance.GameEnd += StopMovement;
             _t = GetComponent<Transform>();
         }
         
         private void Update()
         {
-            if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
+            if (Input.GetKey(KeyCode.W) ||
+                Input.GetKey(KeyCode.A) ||
+                Input.GetKey(KeyCode.S) ||
+                Input.GetKey(KeyCode.D))
             {
                 Move();
             }
@@ -30,6 +35,16 @@ namespace TestJ
             Vector3 dir = new Vector3(h, 0f, v);
             dir.Normalize();
             _t.transform.position += moveSpeed * Time.deltaTime * dir;
+        }
+
+        private void StopMovement()
+        {
+            enabled = false;
+        }
+
+        private void OnDisable()
+        {
+            EventManager.Instance.GameEnd -= StopMovement;
         }
     }
 }

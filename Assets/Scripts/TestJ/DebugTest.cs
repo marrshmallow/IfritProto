@@ -26,7 +26,7 @@ namespace TestJ
 
         private void Start()
         {
-            EventManager.Instance.PhaseSwitch += FindNail;
+            EventManager.Instance.NailSpawn += FindNail;
             
             _boss = FindFirstObjectByType<Boss>();
             _pursuePlayer = FindFirstObjectByType<PursuePlayer>();
@@ -35,14 +35,6 @@ namespace TestJ
 
         private void Update()
         {
-            if (infernalNail != null)
-            {
-                int j = (int)infernalNail.hp;
-                nailHp.text = $"Nail HP: {j}";
-                time = BattlePhaseChecker.timeLimit;
-                timeLimit.text = $"Time Limit: {time}";
-            }
-            
             i = (int)_boss.Hp;
             bossHp.text = $"Boss HP: {i}";
             currentPhase = BattlePhaseChecker.CurrentPhase;
@@ -51,13 +43,20 @@ namespace TestJ
             gameState.text = $"State: {currentGameState}";
             currentBossState = PlayerDetector.BossState;
             bossState.text = $"Boss State: {currentBossState}";
+            if (infernalNail != null)
+            {
+                int j = (int)infernalNail.hp;
+                nailHp.text = $"Nail HP: {j}";
+                time = BattlePhaseChecker.timeLimit;
+                timeLimit.text = $"Time Limit: {time}";
+            }
         }
 
         private void FindNail()
         {
-            if (infernalNail == null) return;
-            if (currentPhase != BattlePhaseChecker.Phase.B) return;
+            Debug.Log($"Finding nail...");
             infernalNail = FindAnyObjectByType<InfernalNail>();
+            Debug.Log($"Found nail!");
         }
     
         private void FixedUpdate()
@@ -70,7 +69,7 @@ namespace TestJ
 
         private void OnDisable()
         {
-            EventManager.Instance.PhaseSwitch -= FindNail;
+            EventManager.Instance.NailSpawn -= FindNail;
         }
     }
 }

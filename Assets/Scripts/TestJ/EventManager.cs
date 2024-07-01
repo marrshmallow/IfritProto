@@ -33,11 +33,25 @@ namespace TestJ
             InitiateBattle?.Invoke();
         }
 
+        public event Action NailSpawn;
+
+        public void OnNailSpawned()
+        {
+            NailSpawn?.Invoke();
+        }
+        
         public event Action PassCheckpoint;
 
         public void OnCheckpointPassed()
         {
             PassCheckpoint?.Invoke();
+        }
+
+        public event Action GameEnd;
+
+        public void OnGameEnded()
+        {
+            GameEnd?.Invoke();
         }
     }
 }

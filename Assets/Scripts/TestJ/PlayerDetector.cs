@@ -27,7 +27,7 @@ namespace TestJ
         {
             _boss = transform.parent.GetComponent<Boss>();
             EventManager.Instance.InitiateBattle += InitiateBattle;
-            EventManager.Instance.BattleStateChange += UpdateState;
+            EventManager.Instance.BattleStateChange += ConfirmState;
         }
 
         private void Update()
@@ -39,7 +39,7 @@ namespace TestJ
         {
             if (other.gameObject.layer != 3) return;
             player = other.gameObject;
-            EventManager.Instance.OnBattleInitiated();
+            EventManager.Instance?.OnBattleInitiated();
         }
 
         private void ChangeState()
@@ -84,10 +84,10 @@ namespace TestJ
             }*/
 
             if (BossState == _newState) return;
-            EventManager.Instance.OnBattleStateChanged();
+            EventManager.Instance?.OnBattleStateChanged();
         }
 
-        private void UpdateState()
+        private void ConfirmState()
         {
             BossState = _newState;
         }
@@ -101,7 +101,7 @@ namespace TestJ
         private void OnDisable()
         {
             EventManager.Instance.InitiateBattle -= InitiateBattle;
-            EventManager.Instance.BattleStateChange -= UpdateState;
+            EventManager.Instance.BattleStateChange -= ConfirmState;
         }
     }
 }

@@ -60,6 +60,7 @@ namespace TestJ
         private void Start()
         {
             EventManager.Instance.InitiateBattle += StartAttack;
+            EventManager.Instance.GameEnd += StopAllAttacks;
         }
         
         private void Update()
@@ -82,17 +83,19 @@ namespace TestJ
         
         private IEnumerator AutoAttack()
         {
-            float d = Random.Range(50f, 60f); // 공격량 결정
-            HitHard(); // 치명타 룰렛 실행
-            if (_isCriticalHit)
+            while (true)
             {
-                d *= criticalMultiplier;
-            }
+                float d = Random.Range(50f, 60f); // 공격량 결정
+                HitHard(); // 치명타 룰렛 실행
+                if (_isCriticalHit)
+                {
+                    d *= criticalMultiplier;
+                }
             
-            _damage = Mathf.FloorToInt(d); // 최종 공격량 확정
-            //Debug.Log($"보스가 플레이어에게 {_damage}만큼 피해!");
-            yield return new WaitForSeconds(3f);
-            StartCoroutine(nameof(AutoAttack));
+                _damage = Mathf.FloorToInt(d); // 최종 공격량 확정
+                Debug.Log($"보스가 플레이어에게 {_damage}만큼 피해!");
+                yield return new WaitForSeconds(3f);
+            }
         }
         
         private IEnumerator Incinerate()
@@ -227,10 +230,16 @@ namespace TestJ
                     break;
             }
         }
+
+        private void StopAllAttacks()
+        {
+            StopAllCoroutines();
+        }
         
         private void OnDisable()
         {
             EventManager.Instance.InitiateBattle -= StartAttack;
+            EventManager.Instance.GameEnd -= StopAllAttacks;
         }
     }
 }

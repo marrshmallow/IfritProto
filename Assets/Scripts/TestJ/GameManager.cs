@@ -16,6 +16,7 @@ namespace TestJ
         private void Start()
         {
             EventManager.Instance.PassCheckpoint += PassCheckpoint;
+            EventManager.Instance.PhaseSwitch += EndGame;
         }
         
         private void PassCheckpoint()
@@ -27,6 +28,17 @@ namespace TestJ
         private void OnDisable()
         {
             EventManager.Instance.PassCheckpoint -= PassCheckpoint;
+            EventManager.Instance.PhaseSwitch -= EndGame;
+        }
+
+        private void EndGame()
+        {
+            if (BattlePhaseChecker.CurrentPhase == BattlePhaseChecker.Phase.GameOver ||
+                BattlePhaseChecker.CurrentPhase == BattlePhaseChecker.Phase.GameClear)
+            {
+                EventManager.Instance?.OnGameEnded();
+                Debug.Log($"Activated @ {BattlePhaseChecker.CurrentPhase}");
+            }
         }
     }
 }
